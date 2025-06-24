@@ -1,0 +1,37 @@
+# FreeBSD package files
+*.pkg
+*.txz
+*.tbz
+*.tgz
+
+# Ports build work directory
+work/
+
+# Ports distfiles
+distfiles/
+
+# Package staging directory
+stage/
+
+# Build logs
+*.log
+
+# Poudriere artifacts
+.poudriere/
+poudriere.log
+
+# Port testing
+test-results/
+
+# Package manifest
++MANIFEST
++COMPACT_MANIFEST
+
+# Package scripts
++PRE_INSTALL
++POST_INSTALL
++PRE_DEINSTALL
++POST_DEINSTALL
+
+# Checksums
+distinfo.new

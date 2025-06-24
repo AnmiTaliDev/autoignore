@@ -1,0 +1,49 @@
+# Perl compiled files
+*.bs
+*.o
+*.c
+*.xs.c
+*.xs.o
+
+# Perl executables
+*.exe
+
+# Perl module build artifacts
+blib/
+_build/
+Build
+Build.bat
+.build/
+
+# Perl installation
+pm_to_blib
+MANIFEST.bak
+META.yml
+META.json
+MYMETA.yml
+MYMETA.json
+
+# Perl coverage
+cover_db/
+
+# Perl distribution
+*.tar.gz
+*.tgz
+
+# Perl temporary files
+nytprof.out
+nytprof/
+
+# Perl debugger
+.perl_history
+
+# Perl tools
+.prove
+
+# CPAN
+.cpan/
+.cpanm/
+
+# Carton
+local/
+cpanfile.snapshot

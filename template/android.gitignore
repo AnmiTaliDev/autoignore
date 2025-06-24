@@ -1,0 +1,56 @@
+# Android build outputs
+*.apk
+*.aab
+*.aar
+*.ap_
+*.dex
+
+# Android build directories
+build/
+.gradle/
+gradle/
+
+# Android signing files
+*.jks
+*.keystore
+key.properties
+
+# Android Studio
+local.properties
+.idea/
+*.iml
+
+# Android SDK
+sdk/
+ndk/
+
+# Android Virtual Device
+.android/
+*.avd/
+
+# Android lint
+lint-results.xml
+lint-report.html
+
+# Android profiling
+*.hprof
+
+# Proguard
+proguard/
+mapping.txt
+
+# Android resources
+R.txt
+gen/
+
+# Android test results
+androidTest-results/
+test-results/
+
+# Firebase
+google-services.json
+GoogleService-Info.plist
+
+# Crashlytics
+crashlytics-build.properties
+fabric.properties

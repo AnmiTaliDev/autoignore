@@ -1,0 +1,36 @@
+# GTK Glade backup files
+*.glade~
+*.ui~
+
+# GTK Builder cache
+*.ui.h
+
+# GSettings schema compiled
+gschemas.compiled
+
+# GTK CSS cache
+*.css~
+
+# Glade project files
+*.gladep
+
+# GTK application files
+*.desktop.in
+*.desktop~
+
+# Intltool files
+po/*.pot
+
+# GTK Icon cache
+icon-theme.cache
+
+# GResource compiled files
+*.gresource
+
+# Vala generated files
+*.c
+*.h
+*.vapi
+
+# Blueprint compiler
+*.blp.ui

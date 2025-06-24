@@ -1,0 +1,40 @@
+# Tauri build outputs
+src-tauri/target/
+dist/
+build/
+
+# Tauri generated files
+src-tauri/gen/
+src-tauri/Cargo.lock
+
+# Tauri WiX installer
+src-tauri/wix/
+
+# Tauri bundle outputs
+*.msi
+*.deb
+*.rpm
+*.pkg
+*.dmg
+*.app
+*.AppImage
+
+# Tauri configuration
+src-tauri/tauri.conf.json.bak
+
+# Tauri logs
+*.log
+
+# Tauri development
+.tauri/
+
+# Tauri mobile
+src-tauri/gen/android/
+src-tauri/gen/apple/
+
+# Tauri updater
+*.sig
+*.tar.gz.sig
+
+# Platform specific
+WixTools/

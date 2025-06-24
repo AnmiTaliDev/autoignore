@@ -1,0 +1,37 @@
+# Vim swap files
+*.swp
+*.swo
+
+# Vim session files
+Session.vim
+Sessionx.vim
+
+# Vim temporary files
+*~
+
+# Vim undo files
+*.un~
+
+# Vim backup files
+*.orig
+
+# Vim netrw history
+.netrwhist
+
+# Vim tags
+tags
+TAGS
+
+# Vim spell files
+*.spl
+*.sug
+
+# Vim view files
+.vimviews/
+
+# Vim plugin cache
+.vim/
+
+# Neovim
+.nvim/
+.config/nvim/plugin/

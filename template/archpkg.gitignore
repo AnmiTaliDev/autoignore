@@ -1,0 +1,35 @@
+# Arch package files
+*.pkg.tar.xz
+*.pkg.tar.zst
+*.pkg.tar.gz
+
+# Makepkg working directories
+pkg/
+src/
+
+# Pacman database files
+*.db
+*.db.tar.xz
+*.db.tar.gz
+*.files
+*.files.tar.xz
+*.files.tar.gz
+
+# Makepkg logs and cache
+*.log
+.makepkg/
+
+# Arch build system
+*.SRCINFO
+
+# Downloaded sources cache
+*.part
+
+# Pacman cache
+*.pkg.tar.*
+
+# ASP (Arch Source Package) files
+.asp/
+
+# Devtools chroot
+chroot/

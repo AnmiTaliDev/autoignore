@@ -1,0 +1,46 @@
+# 1C:Enterprise database files
+*.1cd
+*.lgf
+*.lgp
+
+# 1C:Enterprise configuration files
+*.cf
+*.cfu
+
+# 1C:Enterprise external data processors
+*.epf
+*.erf
+
+# 1C:Enterprise reports
+*.ert
+
+# 1C:Enterprise backup
+*.dt
+
+# 1C:Enterprise logs
+*.log
+logs/
+
+# 1C:Enterprise temporary files
+*.tmp
+temp/
+
+# 1C:Enterprise cache
+cache/
+*.cache
+
+# 1C:Enterprise user settings
+*.usr
+
+# 1C:Enterprise configuration extensions
+*.cfe
+
+# 1C:Enterprise web publication
+*.wsf
+
+# 1C:Enterprise mobile app
+*.zip
+
+# EDT workspace
+.metadata/
+.settings/

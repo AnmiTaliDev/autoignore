@@ -1,0 +1,46 @@
+# Haskell compiled files
+*.hi
+*.o
+*.dyn_hi
+*.dyn_o
+*.prof
+
+# Haskell executables
+*.exe
+
+# GHC package database
+*.conf
+
+# Cabal build artifacts
+dist/
+dist-newstyle/
+cabal.project.local
+.ghc.environment.*
+
+# Stack build artifacts
+.stack-work/
+stack.yaml.lock
+
+# Haskell Language Server
+.hie/
+hie.yaml
+
+# GHCi files
+.ghci
+.ghci-*
+
+# Haddock documentation
+doc/
+
+# Profiling files
+*.eventlog
+*.hp
+*.aux
+*.tix
+
+# Template Haskell
+*.th.hs
+
+# Nix
+result
+result-*

@@ -1,0 +1,20 @@
+# SvelteKit
+.svelte-kit/
+
+# Svelte build output
+build/
+dist/
+
+# Svelte package output
+package/
+
+# Adapter static output
+.adapter/
+
+# Svelte preprocessor cache
+.svelte/
+
+# Playwright test results
+test-results/
+playwright-report/
+playwright/.cache/

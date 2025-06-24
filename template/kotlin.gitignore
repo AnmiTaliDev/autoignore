@@ -1,0 +1,33 @@
+# Kotlin compiled files
+*.class
+*.jar
+*.kotlin_module
+
+# Kotlin Multiplatform
+build/
+.kotlin/
+
+# Kotlin Native
+*.klib
+*.knm
+
+# Kotlin JS
+*.kjsm
+*.js.map
+kotlin-js-store/
+
+# Kotlin compiler cache
+.kotlinc/
+
+# Kotlin Gradle plugin
+kotlin-js-store/
+kotlin-multiplatform/
+
+# Kotlin metadata
+META-INF/
+
+# Kotlin REPL
+.kotlin_repl/
+
+# Kotlin coroutines debug
+kotlinx-coroutines-core-jvm/

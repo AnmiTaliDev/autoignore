@@ -1,0 +1,41 @@
+# D compiled files
+*.o
+*.obj
+*.lib
+*.a
+*.so
+*.dll
+*.dylib
+
+# D executables
+*.exe
+
+# DUB package manager
+.dub/
+dub.selections.json
+dub.userprefs
+
+# D documentation
+docs/
+*.html
+
+# D coverage files
+*.lst
+*.dep
+
+# D interface files
+*.di
+
+# D debug files
+*.pdb
+*.ilk
+
+# D profiling
+trace.log
+trace.def
+
+# LDC compiler cache
+.ldc/
+
+# DMD generated files
+*.map

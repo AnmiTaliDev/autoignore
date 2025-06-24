@@ -1,0 +1,49 @@
+# C object files
+*.o
+*.obj
+
+# C executables
+*.exe
+*.out
+
+# C static libraries
+*.a
+*.lib
+
+# C shared libraries
+*.so
+*.so.*
+*.dll
+*.dylib
+
+# C debug files
+*.pdb
+*.dSYM/
+
+# C dependency files
+*.d
+*.dep
+
+# C preprocessor output
+*.i
+*.ii
+
+# C assembly output
+*.s
+*.asm
+
+# Core dumps
+core
+core.*
+
+# GCC coverage files
+*.gcno
+*.gcda
+*.gcov
+
+# Compiler cache
+.ccache/
+
+# LLVM bitcode
+*.bc
+*.ll

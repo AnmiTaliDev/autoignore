@@ -1,0 +1,29 @@
+# AUR package build artifacts
+*.pkg.tar.xz
+*.pkg.tar.zst
+
+# Makepkg build directories
+pkg/
+src/
+
+# Makepkg logs
+*.log
+
+# Downloaded sources
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.zip
+*.tgz
+
+# GPG signature files
+*.sig
+*.asc
+
+# Namcap output
+namcap.log
+
+# Source integrity files
+*.sha256
+*.sha512
+*.md5

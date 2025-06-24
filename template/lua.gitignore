@@ -1,0 +1,36 @@
+# Lua compiled files
+*.luac
+
+# LuaJIT bytecode
+*.ljbc
+
+# Lua C modules
+*.so
+*.dll
+*.dylib
+
+# LuaRocks
+luarocks/
+.luarocks/
+
+# Love2D
+*.love
+
+# Lua documentation
+doc/
+docs/
+
+# Lua package cache
+.lua/
+
+# Moonscript compiled files
+*.lua
+
+# Fennel compiled files
+*.fnl.lua
+
+# Lua REPL history
+.lua_history
+
+# Teal compiled files
+*.tl.lua

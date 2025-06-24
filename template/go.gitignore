@@ -1,0 +1,28 @@
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go test binary
+*.test
+
+# Go coverage files
+*.out
+coverage.txt
+coverage.html
+
+# Go modules
+go.sum
+
+# Go workspace
+go.work.sum
+
+# Build directory
+bin/
+dist/
+
+# Air live reload
+.air/
+tmp/

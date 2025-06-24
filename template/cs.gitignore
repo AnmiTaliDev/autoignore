@@ -1,0 +1,46 @@
+# C# compiled files
+bin/
+obj/
+
+# C# executables
+*.exe
+*.dll
+*.pdb
+
+# C# package files
+*.nupkg
+*.snupkg
+
+# Assembly info
+AssemblyInfo.cs
+
+# C# user files
+*.user
+*.suo
+*.cache
+
+# C# temporary files
+*.tmp
+
+# Roslyn analyzer cache
+.analyzerconfig
+
+# StyleCop cache
+StyleCopReport.xml
+
+# Code coverage
+*.coverage
+*.coveragexml
+
+# MSTest results
+TestResults/
+
+# NUnit results
+TestResult.xml
+result.xml
+
+# xUnit results
+xunit-results.xml
+
+# Benchmark results
+BenchmarkDotNet.Artifacts/

@@ -1,0 +1,27 @@
+# Odin compiled files
+*.bin
+*.exe
+*.obj
+*.o
+
+# Odin build artifacts
+build/
+out/
+
+# Odin debug files
+*.pdb
+*.dSYM/
+
+# Odin LLVM IR
+*.ll
+*.bc
+
+# Odin assembly output
+*.s
+*.asm
+
+# Odin build cache
+.odin/
+
+# Odin package cache
+.packages/

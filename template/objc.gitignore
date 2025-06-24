@@ -1,0 +1,48 @@
+# Objective-C compiled files
+*.o
+*.a
+*.dylib
+*.framework
+
+# Objective-C executables
+*.app
+
+# Objective-C debug files
+*.dSYM/
+*.dSYM.zip
+
+# Xcode Objective-C
+build/
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# Interface Builder
+*.nib
+
+# Core Data
+*.mom
+*.momd
+*.omo
+
+# Objective-C PCH
+*.pch.pth
+
+# Objective-C categories backup
+*+*.h~
+*+*.m~
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/
+
+# AppCode
+.idea/
+
+# Provisioning profiles
+*.mobileprovision
+*.p12
+*.cer

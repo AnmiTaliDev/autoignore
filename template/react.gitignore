@@ -1,0 +1,34 @@
+# React build output
+build/
+dist/
+
+# Create React App
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Storybook
+storybook-static/
+
+# React DevTools
+.react/
+
+# Expo
+.expo/
+.expo-shared/
+
+# React Native
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# Metro bundler cache
+.metro-health-check*
+
+# React Testing Library
+.coverage/

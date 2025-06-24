@@ -1,0 +1,49 @@
+# Java compiled files
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# Java package files
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# Java build artifacts
+target/
+build/
+out/
+bin/
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Gradle
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+
+# SBT
+.sbt/
+project/target/
+project/project/
+
+# Java documentation
+javadoc/
+
+# Java heap dumps
+*.hprof
+
+# JProfiler
+*.jpr
+
+# JVM options
+.java-version

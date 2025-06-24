@@ -1,0 +1,36 @@
+# Unity generated files
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+
+# Unity cache and settings
+/[Mm]emoryCaptures/
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/
+
+# Unity packages
+*.unitypackage
+*.androidpack
+
+# Unity crash reports
+sysinfo.txt
+
+# Unity builds
+*.apk
+*.ipa
+*.app
+
+# Unity addressables
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.json*
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Unity plastic SCM
+.plastic/
+
+# Unity collab
+.collabignore

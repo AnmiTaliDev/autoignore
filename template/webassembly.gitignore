@@ -1,0 +1,35 @@
+# WebAssembly compiled files
+*.wasm
+*.wat
+*.wast
+
+# Emscripten
+*.js
+*.js.mem
+*.js.symbols
+*.wasm.map
+
+# AssemblyScript
+build/
+dist/
+node_modules/@assemblyscript/
+
+# Rust WebAssembly
+pkg/
+wasm-pack.log
+
+# C/C++ WebAssembly
+*.bc
+*.o
+*.ll
+
+# WABT tools output
+*.wasm.txt
+*.wat.wasm
+
+# WebAssembly runtime
+*.so
+*.dylib
+
+# WASI
+*.wasi

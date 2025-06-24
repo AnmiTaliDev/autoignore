@@ -1,0 +1,14 @@
+# Ninja build files
+build.ninja
+rules.ninja
+
+# Ninja build logs
+.ninja_log
+.ninja_deps
+
+# Ninja build directories
+build/
+out/
+
+# Ninja generated files
+*.ninja

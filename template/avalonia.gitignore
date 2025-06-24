@@ -1,0 +1,29 @@
+# Avalonia compiled files
+bin/
+obj/
+
+# Avalonia designer cache
+.avalonia/
+
+# Avalonia preview cache
+.designer/
+
+# Avalonia XAML cache
+*.g.cs
+*.g.i.cs
+
+# Avalonia resources
+*.resources
+
+# Platform specific outputs
+*.app/
+*.exe
+*.dll
+
+# Avalonia publish profiles
+Properties/PublishProfiles/
+
+# Native AOT
+*.h
+*.lib
+*.exp

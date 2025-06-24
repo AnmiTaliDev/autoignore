@@ -1,0 +1,40 @@
+# Debian package files
+*.deb
+*.ddeb
+*.udeb
+
+# Debian build artifacts
+*.dsc
+*.changes
+*.buildinfo
+
+# Source packages
+*.orig.tar.gz
+*.orig.tar.xz
+*.orig.tar.bz2
+*.debian.tar.gz
+*.debian.tar.xz
+
+# debhelper artifacts
+debian/tmp/
+debian/.debhelper/
+debian/*/
+debian/files
+debian/substvars
+
+# Build logs
+debian/*.log
+debian/*.debhelper.log
+
+# Lintian output
+lintian.log
+
+# pbuilder/cowbuilder
+*.build
+
+# sbuild
+*.build.log
+
+# GPG signatures
+*.asc
+*.sig

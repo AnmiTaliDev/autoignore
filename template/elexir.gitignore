@@ -1,0 +1,37 @@
+# Elixir compiled files
+_build/
+deps/
+*.beam
+*.ez
+
+# Elixir documentation
+doc/
+
+# Elixir coverage
+cover/
+*.coverdata
+
+# Mix lock file
+mix.lock
+
+# Elixir releases
+rel/
+*.tar.gz
+
+# Phoenix framework
+priv/static/
+assets/node_modules/
+
+# Ecto database
+*.sqlite3
+*.sqlite3-*
+
+# LiveView uploads
+priv/uploads/
+
+# Temporary files
+.elixir_ls/
+.mix/
+
+# OTP releases
+_build/prod/rel/

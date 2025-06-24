@@ -1,0 +1,35 @@
+# Blazor Server
+.vs/
+bin/
+obj/
+
+# Blazor WebAssembly
+wwwroot/dist/
+wwwroot/_framework/
+
+# Blazor publish output
+publish/
+
+# Blazor debug files
+*.pdb
+
+# Blazor cache
+.blazor/
+
+# CSS isolation
+*.rz.scp.css
+
+# Blazor component cache
+Components/bin/
+Components/obj/
+
+# ASP.NET Core
+appsettings.Development.json
+appsettings.Local.json
+
+# Entity Framework
+Migrations/
+
+# SignalR TypeScript output
+*.js.map
+wwwroot/js/signalr/

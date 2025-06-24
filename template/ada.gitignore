@@ -1,0 +1,43 @@
+# Ada compiled files
+*.o
+*.ali
+*.a
+*.so
+*.dll
+
+# Ada executables
+*.exe
+
+# GNAT specific files
+*.stderr
+*.stdout
+b~*.ad?
+b~*.adb
+b~*.ads
+
+# GNAT project files
+.gnatdebug
+gnatdist.log
+
+# Ada Library Information files
+*.ali
+
+# GNAT binder files
+b_*.c
+b_*.h
+b_*.o
+
+# GNAT compilation artifacts
+.gnatconfig
+.gnatls
+
+# GPS IDE files
+*.gpr.in
+
+# AdaCore toolchain
+.alire/
+alr-config.toml
+
+# ObjectAda files
+*.err
+*.wrn

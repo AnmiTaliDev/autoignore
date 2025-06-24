@@ -1,0 +1,35 @@
+# Docker build context files
+.dockerignore
+
+# Docker compose override files
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# Docker build cache
+.docker/
+
+# Docker volumes
+volumes/
+data/
+
+# Environment files
+.env.docker
+.env.compose
+
+# Docker secrets
+secrets/
+certs/
+
+# Docker build logs
+docker-build.log
+
+# Podman equivalents
+.podman/
+podman-compose.override.yml
+
+# Container runtime files
+.container/
+*.pid
+
+# Multi-stage build artifacts
+.build-cache/

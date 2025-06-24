@@ -1,0 +1,33 @@
+# Vala compiled files
+*.c
+*.h
+
+# Vala executables
+*.exe
+
+# Vala API files
+*.vapi
+
+# Vala intermediate files
+*.valadoc
+*.deps
+
+# Vala documentation
+valadoc/
+
+# GIR files
+*.gir
+*.typelib
+
+# Vala build cache
+.vala/
+
+# Autotools Vala files
+*_vala.stamp
+
+# Meson Vala files
+*.p/
+
+# Valac temporary files
+*.tmp.c
+*.tmp.h

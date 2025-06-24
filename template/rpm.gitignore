@@ -1,0 +1,24 @@
+# RPM build directories
+BUILD/
+BUILDROOT/
+RPMS/
+SOURCES/
+SPECS/
+SRPMS/
+
+# RPM build artifacts
+*.rpm
+*.srpm
+
+# RPM build logs
+*.log
+
+# RPM macros temporary files
+.rpmmacros~
+
+# Mock build directories
+mock-result/
+*.mock/
+
+# Copr build artifacts
+.copr/

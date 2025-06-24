@@ -1,0 +1,36 @@
+# F# compiled files
+bin/
+obj/
+
+# F# executables
+*.exe
+*.dll
+*.pdb
+
+# F# interactive
+*.fsx.lock
+
+# F# project cache
+.fake/
+.paket/
+
+# FAKE build tool
+.fake/
+build.fsx.lock
+
+# Paket dependency manager
+paket-files/
+.paket/paket.exe
+
+# Ionide F# extension
+.ionide/
+
+# F# PowerPack
+FSharp.PowerPack.dll
+FSharp.PowerPack.Linq.dll
+
+# F# formatting tool
+.fantomas/
+
+# F# FSI (F# Interactive) files
+*.fsi~

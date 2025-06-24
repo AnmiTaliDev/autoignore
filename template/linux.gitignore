@@ -1,0 +1,27 @@
+# Linux kernel module files
+*.ko
+*.mod
+*.mod.c
+*.mod.o
+
+# Module build artifacts
+modules.order
+Module.symvers
+.modules.order.cmd
+.Module.symvers.cmd
+
+# Kernel build system
+.tmp_versions/
+*.o.cmd
+*.ko.cmd
+*.mod.cmd
+
+# Module signing
+*.ko.sig
+
+# Version info
+.version
+
+# Kbuild generated files
+*.o.ur-safe
+*.symtypes

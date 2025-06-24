@@ -1,0 +1,36 @@
+# Nix build outputs
+result
+result-*
+
+# Nix development shells
+.direnv/
+.envrc
+
+# Nix store paths
+/nix/store
+
+# Nix profile links
+.nix-profile/
+
+# Nix garbage collection roots
+.nix-gc-roots
+
+# Nix channels
+.nix-channels
+
+# Nix expression evaluation cache
+.nix-defexpr/
+
+# Flakes lock file (optional - depends on project policy)
+flake.lock
+
+# Cachix
+.cachix/
+
+# Nix-build symlinks
+result-bin
+result-doc
+result-dev
+
+# Home Manager
+.hm-gc-roots

@@ -1,0 +1,56 @@
+# PHP compiled files
+*.phar
+
+# Composer
+vendor/
+composer.lock
+composer.phar
+
+# PHP logs
+*.log
+logs/
+
+# PHP cache
+cache/
+*.cache
+
+# PHPUnit
+.phpunit.result.cache
+build/
+coverage/
+
+# PHP temporary files
+*.tmp
+tmp/
+
+# PHP session files
+sessions/
+
+# PHP opcache
+.opcache/
+
+# PHP-CS-Fixer
+.php_cs.cache
+.php-cs-fixer.cache
+
+# Xdebug
+xdebug.log
+
+# Symfony
+var/cache/
+var/log/
+var/sessions/
+
+# Laravel
+storage/app/
+storage/framework/
+storage/logs/
+bootstrap/cache/
+
+# Drupal
+sites/*/files/
+sites/*/private/
+
+# WordPress
+wp-config-local.php
+wp-content/uploads/

@@ -1,0 +1,46 @@
+# Erlang compiled files
+*.beam
+*.boot
+*.script
+*.app
+
+# Erlang build artifacts
+ebin/
+_build/
+
+# Rebar3
+_checkouts/
+rebar.lock
+
+# Rebar
+deps/
+rel/
+.concrete/
+
+# Erlang releases
+*.tar.gz
+*.tgz
+
+# Erlang logs
+logs/
+log/
+*.log
+
+# Erlang crash dumps
+erl_crash.dump
+
+# Dialyzer
+.dialyzer_plt
+.local_dialyzer_plt
+dialyzer_warnings
+
+# Cover
+.eunit/
+cover/
+*.coverdata
+
+# CT logs
+ct_logs/
+
+# Mnesia database
+Mnesia*/

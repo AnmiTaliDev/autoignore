@@ -1,0 +1,49 @@
+# Swift compiled files
+*.swiftmodule
+*.swiftdoc
+*.swiftsourceinfo
+
+# Swift Package Manager
+.build/
+Package.resolved
+.swiftpm/
+
+# Swift executables
+*.app
+*.framework
+*.dSYM.zip
+*.dSYM/
+
+# Swift intermediate files
+*.o
+*.d
+
+# Swift LLVM
+*.bc
+*.ll
+
+# Swift playgrounds
+*.playground
+
+# Swift REPL
+.swift-version
+
+# Xcode Swift
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# Swift testing
+.build-tests/
+Tests/LinuxMain.swift
+
+# Swift documentation
+docs/
+*.docc/
+
+# Swift formatter
+.swift-format
+
+# Vapor framework
+Public/
+Resources/

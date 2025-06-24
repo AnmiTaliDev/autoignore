@@ -1,0 +1,45 @@
+# Assembly object files
+*.o
+*.obj
+*.elf
+*.bin
+*.hex
+
+# Assembly executables
+*.exe
+*.out
+
+# Assembly listing files
+*.lst
+*.list
+
+# Assembly map files
+*.map
+
+# Assembly symbol files
+*.sym
+
+# NASM specific
+*.com
+
+# MASM specific
+*.cod
+
+# Gas/AT&T specific
+*.s.o
+
+# Assembly linker files
+*.ld
+*.x
+
+# Debug files
+*.dwarf
+*.debug
+
+# Disassembly files
+*.dis
+*.disasm
+
+# Boot sector files
+*.img
+*.iso

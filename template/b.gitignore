@@ -1,0 +1,25 @@
+# B compiled files
+*.o
+*.obj
+
+# B executables
+*.exe
+*.out
+
+# B intermediate files
+*.i
+*.s
+
+# B library files
+*.a
+*.lib
+
+# B debug files
+*.sym
+*.map
+
+# B compiler temporary
+*.tmp
+
+# B cross-reference
+*.crf

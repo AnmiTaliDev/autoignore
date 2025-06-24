@@ -1,0 +1,53 @@
+# Node.js dependencies
+node_modules/
+
+# npm logs
+npm-debug.log*
+npm-error.log*
+
+# Yarn logs and cache
+yarn-debug.log*
+yarn-error.log*
+.yarn/
+.yarnrc.yml
+
+# pnpm
+.pnpm-debug.log*
+.pnpm-store/
+
+# Package lock files (choose one to keep)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+out/
+
+# Runtime data
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+coverage/
+.nyc_output
+
+# ESLint cache
+.eslintcache
+
+# Parcel cache
+.parcel-cache/
+
+# Next.js build output
+.next/
+
+# Nuxt.js build output
+.nuxt/
+
+# Vite build cache
+.vite/
+
+# Svelte kit
+.svelte-kit/
