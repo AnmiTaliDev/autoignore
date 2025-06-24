@@ -1,0 +1,13 @@
+# Meson build directories
+builddir/
+build/
+
+# Meson wrap files cache
+subprojects/packagecache/
+subprojects/*/
+
+# Meson compile commands
+compile_commands.json
+
+# Meson private directory
+.mesonpy-*

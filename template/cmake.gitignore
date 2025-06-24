@@ -1,0 +1,27 @@
+# CMake cache and files
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+
+# CMake build directories
+build/
+Build/
+
+# CMake generated files
+CTestTestfile.cmake
+Testing/
+
+# CMake dependencies
+_deps/
+
+# CPack
+*.dmg
+*.deb
+*.rpm
+*.tar.gz
+*.zip
+
+# CMake user files
+CMakeLists.txt.user*

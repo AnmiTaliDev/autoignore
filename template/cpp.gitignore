@@ -1,0 +1,44 @@
+# C++ compiled object files
+*.o
+*.obj
+
+# C++ compiled static libraries
+*.a
+*.lib
+
+# C++ compiled shared libraries
+*.so
+*.so.*
+*.dll
+*.dylib
+
+# C++ executables
+*.exe
+*.out
+*.app
+
+# Precompiled headers
+*.gch
+*.pch
+
+# Debug information
+*.pdb
+*.idb
+
+# Core dumps
+core
+core.*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*~
+*.bak
+*.orig
+
+# Build directories (generic)
+build/
+bin/
+obj/

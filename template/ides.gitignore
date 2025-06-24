@@ -1,0 +1,70 @@
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs (IntelliJ IDEA, CLion, PyCharm, WebStorm, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.metadata
+.settings/
+.loadpath
+.recommenders
+.project
+.classpath
+.factorypath
+.buildpath
+
+# NetBeans
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Atom
+.atom/
+
+# Xcode
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+*.moved-aside
+DerivedData/
+
+# Android Studio
+.gradle/
+local.properties
+captures/
+
+# Qt Creator
+*.autosave
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+CMakeLists.txt.user*
+
+# Code::Blocks
+*.cbp
+*.layout
+*.depend
+*.workspace
+
+# CodeLite
+*.project
+*.workspace
+.codelite/
+
+# MonoDevelop/Xamarin Studio
+*.userprefs

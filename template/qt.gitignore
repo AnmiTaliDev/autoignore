@@ -1,0 +1,56 @@
+# Qt generated files
+*.qm
+*.prl
+
+# Qt project files
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+
+# Qt cache and build
+/.qmake.cache
+/.qmake.stash
+object_script.*.Release
+object_script.*.Debug
+*_plugin_import.cpp
+
+# Qt MOC (Meta-Object Compiler)
+moc_*.cpp
+moc_*.h
+
+# Qt RCC (Resource Compiler)
+qrc_*.cpp
+
+# Qt UIC (User Interface Compiler)
+ui_*.h
+
+# Qt QML compiler
+*.qmlc
+*.jsc
+
+# Qt Quick Controls 2
+qtquickcontrols2.conf
+
+# Qt translations
+*.ts
+
+# Qt Designer
+*.ui.autosave
+
+# Qt linguist
+*.qph
+
+# Qt unit tests
+target_wrapper.*
+
+# Qt application bundles (macOS)
+*.app/Contents
+
+# Qt deployment
+windeployqt/
+macdeployqt/
+
+# qbs build system
+*.qbs.user
+*.qbs.user.*

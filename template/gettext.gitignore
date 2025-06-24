@@ -1,0 +1,12 @@
+# Compiled translation files
+*.mo
+*.gmo
+
+# Gettext template files backup
+*.pot~
+
+# Gettext message catalogs backup
+*.po~
+
+# Build artifacts
+po/stamp-po
