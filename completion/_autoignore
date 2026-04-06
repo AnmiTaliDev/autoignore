@@ -1,0 +1,23 @@
+#compdef autoignore
+
+_autoignore() {
+    _arguments \
+        '(-l --list)'{-l,--list}'[list available templates]' \
+        '(-s --search)'{-s,--search}'[search templates by name]:query' \
+        '(-i --interactive)'{-i,--interactive}'[select templates interactively]' \
+        '(-d --detect)'{-d,--detect}'[auto-detect templates from project files]' \
+        '(-o --output)'{-o,--output}'[output file]:file:_files' \
+        '(-a --append)'{-a,--append}'[append to existing file]' \
+        '(-p --preview)'{-p,--preview}'[preview output without writing]' \
+        '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+        '(-h --help)'{-h,--help}'[show help]' \
+        '*:template:->templates'
+
+    if [[ $state == templates ]]; then
+        local -a templates
+        templates=($(autoignore --list 2>/dev/null | awk '/^  [a-z]/{print $1}'))
+        _describe 'template' templates
+    fi
+}
+
+_autoignore
