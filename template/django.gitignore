@@ -1,0 +1,9 @@
+# @detect: manage.py wsgi.py asgi.py
+*.pyc
+__pycache__/
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+.env
+local_settings.py
