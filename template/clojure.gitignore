@@ -1,0 +1,7 @@
+# @detect: *.clj *.cljs *.cljc project.clj deps.edn
+target/
+.cpcache/
+.clj-kondo/
+.lsp/
+pom.xml
+*.class
