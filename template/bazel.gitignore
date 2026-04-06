@@ -1,0 +1,6 @@
+# @detect: WORKSPACE WORKSPACE.bazel BUILD BUILD.bazel .bazelrc
+bazel-bin
+bazel-genfiles
+bazel-out
+bazel-testlogs
+bazel-*
