@@ -1,0 +1,9 @@
+# @detect: *.R *.Rmd *.Rproj DESCRIPTION
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rcheck/
+*.tar.gz
+/doc/
+/Meta/
