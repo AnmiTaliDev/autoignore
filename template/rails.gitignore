@@ -1,0 +1,12 @@
+# @detect: Gemfile config/application.rb config/routes.rb
+log/
+tmp/
+storage/
+public/system/
+public/assets/
+.bundle/
+vendor/bundle/
+db/*.sqlite3
+db/*.sqlite3-journal
+config/master.key
+config/credentials.yml.enc
