@@ -1,0 +1,4 @@
+# @detect: *.zig build.zig build.zig.zon
+zig-out/
+zig-cache/
+.zig-cache/
