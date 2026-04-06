@@ -1,0 +1,5 @@
+# @detect: project.godot *.tscn *.gd *.gdscript
+.godot/
+export_presets.cfg
+android/build/
+*.translation
