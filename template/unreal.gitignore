@@ -1,0 +1,13 @@
+# @detect: *.uproject *.uplugin
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+*.VC.db
+*.opensdf
+*.sdf
+*.sln
+*.suo
+*.xcworkspace
