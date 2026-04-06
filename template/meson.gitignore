@@ -1,3 +1,4 @@
+# @detect: meson.build meson_options.txt
 # Meson build directories
 builddir/
 build/

@@ -1,3 +1,4 @@
+# @detect: *.tf *.tfvars main.tf
 # Terraform state files
 *.tfstate
 *.tfstate.*

@@ -1,3 +1,4 @@
+# @detect: *.jsx *.tsx
 # React build output
 build/
 dist/

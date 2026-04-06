@@ -1,3 +1,4 @@
+# @detect: *.svelte svelte.config.js
 # SvelteKit
 .svelte-kit/
 

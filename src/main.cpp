@@ -1,283 +1,226 @@
-#include <iostream>
-#include <fstream>
-#include <filesystem>
-#include <vector>
-#include <string>
-#include <algorithm>
-#include <unordered_set>
-#include <cstdlib>
-#include <getopt.h>
+#include "Common.hpp"
+#include "Detector.hpp"
+#include "Interactive.hpp"
+#include "TemplateStore.hpp"
 
-namespace fs = std::filesystem;
-namespace color {
-    const std::string reset = "\033[0m";
-    const std::string bold = "\033[1m";
-    const std::string red = "\033[31m";
-    const std::string green = "\033[32m";
-    const std::string yellow = "\033[33m";
-    const std::string blue = "\033[34m";
-    const std::string magenta = "\033[35m";
-    const std::string cyan = "\033[36m";
-    const std::string white = "\033[37m";
-    const std::string gray = "\033[90m";
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <unordered_set>
+#include <vector>
+#include <getopt.h>
+#include <unistd.h>
+
+static void print_header() {
+    std::cout << color::bold << color::cyan << "autoignore" << color::reset
+              << " " << color::gray << "2.0.0  gitignore generator" << color::reset << "\n\n";
 }
 
-class AutoIgnore {
-private:
-    std::vector<fs::path> template_paths;
-    bool verbose = false;
-    
-    void init_template_paths() {
-        // User-specific templates
-        const char* home = std::getenv("HOME");
-        if (home) {
-            template_paths.push_back(fs::path(home) / ".local/share/autoignore/template");
-        }
-        
-        // System-wide templates
-        template_paths.push_back("/usr/local/share/autoignore/template");
-        template_paths.push_back("/usr/share/autoignore/template");
+static void print_usage() {
+    std::cout
+        << color::bold << "Usage:" << color::reset << "\n"
+        << "  autoignore [OPTIONS] [TEMPLATES...]\n\n"
+        << color::bold << "Options:" << color::reset << "\n"
+        << "  -l, --list              List available templates\n"
+        << "  -s, --search <query>    Search templates by name\n"
+        << "  -i, --interactive       Select templates interactively\n"
+        << "  -d, --detect            Auto-detect templates from project files\n"
+        << "  -o, --output <file>     Output file (default: .gitignore)\n"
+        << "  -a, --append            Append to existing file\n"
+        << "  -p, --preview           Preview output without writing\n"
+        << "  -v, --verbose           Verbose output\n"
+        << "  -h, --help              Show this help\n\n"
+        << color::bold << "Examples:" << color::reset << "\n"
+        << "  autoignore cpp cmake\n"
+        << "  autoignore --interactive\n"
+        << "  autoignore --detect\n"
+        << "  autoignore --search py\n"
+        << "  autoignore -d -i\n";
+}
+
+static void cmd_list(TemplateStore& store) {
+    const auto& templates = store.all();
+    if (templates.empty()) {
+        std::cout << color::yellow << "No templates found." << color::reset << "\n";
+        return;
     }
-    
-    std::vector<std::string> get_available_templates() {
-        std::unordered_set<std::string> templates;
-        
-        for (const auto& path : template_paths) {
-            if (!fs::exists(path) || !fs::is_directory(path)) {
-                continue;
-            }
-            
-            for (const auto& entry : fs::directory_iterator(path)) {
-                if (entry.is_regular_file()) {
-                    std::string filename = entry.path().filename().string();
-                    if (filename.ends_with(".gitignore")) {
-                        templates.insert(filename.substr(0, filename.length() - 10));
-                    }
-                }
-            }
-        }
-        
-        return std::vector<std::string>(templates.begin(), templates.end());
+    std::cout << color::bold << "Available templates (" << templates.size() << "):\n" << color::reset;
+    for (const auto& t : templates) {
+        std::cout << "  " << color::green << t.name << color::reset;
+        if (!t.detect_patterns.empty())
+            std::cout << color::gray << "  [auto-detect]" << color::reset;
+        std::cout << "\n";
     }
-    
-    std::string read_template(const std::string& template_name) {
-        for (const auto& path : template_paths) {
-            fs::path template_file = path / (template_name + ".gitignore");
-            if (fs::exists(template_file)) {
-                std::ifstream file(template_file);
-                if (file.is_open()) {
-                    std::string content((std::istreambuf_iterator<char>(file)),
-                                      std::istreambuf_iterator<char>());
-                    return content;
-                }
-            }
-        }
-        return "";
-    }
-    
-    void print_header() {
-        std::cout << color::bold << color::cyan << "autoignore" << color::reset 
-                  << color::gray << " - GitIgnore template generator" << color::reset << std::endl;
-        std::cout << color::gray << "Author: AnmiTaliDev | License: Apache 2.0" << color::reset << std::endl;
-        std::cout << std::endl;
-    }
-    
-    void print_usage() {
-        std::cout << color::bold << "Usage:" << color::reset << std::endl;
-        std::cout << "  autoignore [OPTIONS] [TEMPLATES...]" << std::endl;
-        std::cout << std::endl;
-        std::cout << color::bold << "Options:" << color::reset << std::endl;
-        std::cout << "  -l, --list      List available templates" << std::endl;
-        std::cout << "  -o, --output    Output file (default: .gitignore)" << std::endl;
-        std::cout << "  -a, --append    Append to existing file instead of overwriting" << std::endl;
-        std::cout << "  -v, --verbose   Verbose output" << std::endl;
-        std::cout << "  -h, --help      Show this help message" << std::endl;
-        std::cout << std::endl;
-        std::cout << color::bold << "Examples:" << color::reset << std::endl;
-        std::cout << "  autoignore cpp python" << std::endl;
-        std::cout << "  autoignore -l" << std::endl;
-        std::cout << "  autoignore -o .gitignore_custom node" << std::endl;
-        std::cout << "  autoignore -a rust" << std::endl;
-    }
-    
-    void list_templates() {
-        auto templates = get_available_templates();
-        
-        if (templates.empty()) {
-            std::cout << color::yellow << "No templates found." << color::reset << std::endl;
-            std::cout << color::gray << "Templates should be located in:" << color::reset << std::endl;
-            for (const auto& path : template_paths) {
-                std::cout << "  " << color::cyan << path << color::reset << std::endl;
-            }
-            return;
-        }
-        
-        std::sort(templates.begin(), templates.end());
-        
-        std::cout << color::bold << "Available templates:" << color::reset << std::endl;
-        for (const auto& tmpl : templates) {
-            std::cout << "  " << color::green << tmpl << color::reset << std::endl;
-        }
-        
-        std::cout << std::endl;
-        std::cout << color::gray << "Template locations:" << color::reset << std::endl;
-        for (const auto& path : template_paths) {
-            if (fs::exists(path)) {
-                std::cout << "  " << color::cyan << path << color::reset;
-                if (fs::is_directory(path)) {
-                    auto count = std::distance(fs::directory_iterator(path), fs::directory_iterator{});
-                    std::cout << color::gray << " (" << count << " files)" << color::reset;
-                }
-                std::cout << std::endl;
-            } else {
-                std::cout << "  " << color::gray << path << " (not found)" << color::reset << std::endl;
-            }
-        }
-    }
-    
-    void generate_gitignore(const std::vector<std::string>& templates, 
-                          const std::string& output_file, bool append) {
-        std::ofstream file;
-        
-        if (append) {
-            file.open(output_file, std::ios::app);
-            if (verbose) {
-                std::cout << color::blue << "Appending to " << output_file << color::reset << std::endl;
-            }
+    std::cout << "\n" << color::gray << "Template locations:\n" << color::reset;
+    for (const auto& p : store.paths()) {
+        std::cout << "  " << color::cyan << p.string() << color::reset;
+        namespace fs = std::filesystem;
+        if (fs::exists(p) && fs::is_directory(p)) {
+            auto n = std::distance(fs::directory_iterator(p), fs::directory_iterator{});
+            std::cout << color::gray << "  (" << n << " files)" << color::reset;
         } else {
-            file.open(output_file, std::ios::trunc);
-            if (verbose) {
-                std::cout << color::blue << "Writing to " << output_file << color::reset << std::endl;
-            }
+            std::cout << color::gray << "  (not found)" << color::reset;
         }
-        
-        if (!file.is_open()) {
-            std::cerr << color::red << "Error: Cannot open file " << output_file << color::reset << std::endl;
-            return;
+        std::cout << "\n";
+    }
+}
+
+static void cmd_search(TemplateStore& store, const std::string& query) {
+    auto results = store.search(query);
+    if (results.empty()) {
+        std::cout << color::yellow << "No templates matching '" << query << "'.\n" << color::reset;
+        return;
+    }
+    std::cout << color::bold << "Matches for '" << query << "' (" << results.size() << "):\n" << color::reset;
+    for (const auto* t : results)
+        std::cout << "  " << color::green << t->name << color::reset << "\n";
+}
+
+static void generate(TemplateStore& store,
+                     const std::vector<std::string>& names,
+                     const std::string& output,
+                     bool append, bool preview, bool verbose)
+{
+    std::vector<std::pair<std::string, std::string>> contents;
+    for (const auto& name : names) {
+        const auto* t = store.find(name);
+        if (!t) {
+            std::cerr << color::yellow << "Warning: template '" << name << "' not found\n" << color::reset;
+            continue;
         }
-        
-        // Header
-        file << "# Generated by autoignore" << std::endl;
-        file << "# Templates: ";
-        for (size_t i = 0; i < templates.size(); ++i) {
-            file << templates[i];
-            if (i < templates.size() - 1) file << ", ";
-        }
-        file << std::endl;
-        file << std::endl;
-        
-        bool any_template_found = false;
-        
-        for (const auto& template_name : templates) {
-            std::string content = read_template(template_name);
-            
-            if (content.empty()) {
-                std::cerr << color::yellow << "Warning: Template '" << template_name 
-                          << "' not found" << color::reset << std::endl;
-                continue;
-            }
-            
-            any_template_found = true;
-            
-            if (verbose) {
-                std::cout << color::green << "Adding template: " << template_name << color::reset << std::endl;
-            }
-            
-            file << "# " << template_name << std::endl;
-            file << content;
-            if (!content.ends_with('\n')) {
-                file << std::endl;
-            }
-            file << std::endl;
-        }
-        
-        file.close();
-        
-        if (any_template_found) {
-            std::cout << color::green << "Successfully generated " << output_file << color::reset << std::endl;
-        } else {
-            std::cerr << color::red << "Error: No valid templates found" << color::reset << std::endl;
-        }
+        contents.emplace_back(name, store.read_content(*t));
     }
 
-public:
-    AutoIgnore() {
-        init_template_paths();
+    if (contents.empty()) {
+        std::cerr << color::red << "Error: no valid templates\n" << color::reset;
+        return;
     }
-    
-    int run(int argc, char* argv[]) {
-        bool list_mode = false;
-        bool append_mode = false;
-        std::string output_file = ".gitignore";
-        
-        static struct option long_options[] = {
-            {"list", no_argument, 0, 'l'},
-            {"output", required_argument, 0, 'o'},
-            {"append", no_argument, 0, 'a'},
-            {"verbose", no_argument, 0, 'v'},
-            {"help", no_argument, 0, 'h'},
-            {0, 0, 0, 0}
-        };
-        
-        int option_index = 0;
-        int c;
-        
-        while ((c = getopt_long(argc, argv, "lo:avh", long_options, &option_index)) != -1) {
-            switch (c) {
-                case 'l':
-                    list_mode = true;
-                    break;
-                case 'o':
-                    output_file = optarg;
-                    break;
-                case 'a':
-                    append_mode = true;
-                    break;
-                case 'v':
-                    verbose = true;
-                    break;
-                case 'h':
-                    print_header();
-                    print_usage();
-                    return 0;
-                case '?':
-                    std::cerr << color::red << "Invalid option" << color::reset << std::endl;
-                    return 1;
-                default:
-                    break;
-            }
+
+    if (preview) {
+        for (const auto& [name, content] : contents) {
+            std::cout << color::bold << color::cyan << "# " << name << color::reset << "\n"
+                      << content;
+            if (!content.ends_with('\n')) std::cout << "\n";
+            std::cout << "\n";
         }
-        
-        if (list_mode) {
-            print_header();
-            list_templates();
-            return 0;
-        }
-        
-        std::vector<std::string> templates;
-        for (int i = optind; i < argc; ++i) {
-            templates.push_back(argv[i]);
-        }
-        
-        if (templates.empty()) {
-            print_header();
-            std::cerr << color::red << "Error: No templates specified" << color::reset << std::endl;
-            std::cout << std::endl;
-            print_usage();
-            return 1;
-        }
-        
-        if (verbose) {
-            print_header();
-        }
-        
-        generate_gitignore(templates, output_file, append_mode);
-        
-        return 0;
+        return;
     }
-};
+
+    std::ofstream f(output, append ? std::ios::app : std::ios::trunc);
+    if (!f) {
+        std::cerr << color::red << "Error: cannot open " << output << "\n" << color::reset;
+        return;
+    }
+
+    f << "# Generated by autoignore\n# Templates:";
+    for (const auto& [name, _] : contents) f << " " << name;
+    f << "\n\n";
+
+    for (const auto& [name, content] : contents) {
+        if (verbose) std::cout << color::green << "  + " << name << color::reset << "\n";
+        f << "# " << name << "\n" << content;
+        if (!content.ends_with('\n')) f << "\n";
+        f << "\n";
+    }
+
+    std::cout << color::green << (append ? "Appended to " : "Generated ")
+              << color::bold << output << color::reset << "\n";
+}
 
 int main(int argc, char* argv[]) {
-    AutoIgnore app;
-    return app.run(argc, argv);
+    bool do_list        = false;
+    bool do_interactive = false;
+    bool do_detect      = false;
+    bool do_preview     = false;
+    bool append         = false;
+    bool verbose        = false;
+    std::string search_query;
+    std::string output = ".gitignore";
+
+    static const struct option long_opts[] = {
+        {"list",        no_argument,       nullptr, 'l'},
+        {"search",      required_argument, nullptr, 's'},
+        {"interactive", no_argument,       nullptr, 'i'},
+        {"detect",      no_argument,       nullptr, 'd'},
+        {"output",      required_argument, nullptr, 'o'},
+        {"append",      no_argument,       nullptr, 'a'},
+        {"preview",     no_argument,       nullptr, 'p'},
+        {"verbose",     no_argument,       nullptr, 'v'},
+        {"help",        no_argument,       nullptr, 'h'},
+        {nullptr, 0, nullptr, 0}
+    };
+
+    int c, idx = 0;
+    while ((c = getopt_long(argc, argv, "ls:ido:apvh", long_opts, &idx)) != -1) {
+        switch (c) {
+            case 'l': do_list = true;           break;
+            case 's': search_query = optarg;    break;
+            case 'i': do_interactive = true;    break;
+            case 'd': do_detect = true;         break;
+            case 'o': output = optarg;          break;
+            case 'a': append = true;            break;
+            case 'p': do_preview = true;        break;
+            case 'v': verbose = true;           break;
+            case 'h': print_header(); print_usage(); return 0;
+            case '?': return 1;
+        }
+    }
+
+    TemplateStore store;
+
+    if (do_list) {
+        print_header();
+        cmd_list(store);
+        return 0;
+    }
+
+    if (!search_query.empty()) {
+        print_header();
+        cmd_search(store, search_query);
+        return 0;
+    }
+
+    std::vector<std::string> templates;
+    for (int i = optind; i < argc; i++) templates.push_back(argv[i]);
+
+    if (do_detect) {
+        Detector detector(store);
+        auto detected = detector.detect(".");
+        if (detected.empty()) {
+            std::cout << color::yellow << "No templates detected for this directory.\n" << color::reset;
+        } else {
+            std::cout << color::bold << "Detected: " << color::reset;
+            for (const auto& t : detected) std::cout << color::green << t << " " << color::reset;
+            std::cout << "\n";
+            std::unordered_set<std::string> seen(templates.begin(), templates.end());
+            for (const auto& t : detected)
+                if (!seen.count(t)) { templates.push_back(t); seen.insert(t); }
+        }
+    }
+
+    if (do_interactive) {
+        if (!isatty(STDIN_FILENO)) {
+            std::cerr << color::red << "Error: interactive mode requires a terminal\n" << color::reset;
+            return 1;
+        }
+        store.all();
+        std::vector<std::string> names;
+        for (const auto& t : store.all()) names.push_back(t.name);
+
+        std::unordered_set<std::string> presel(templates.begin(), templates.end());
+        InteractiveSelector sel;
+        auto chosen = sel.select(names, presel);
+        if (chosen.empty()) return 0;
+        templates = chosen;
+    }
+
+    if (templates.empty()) {
+        print_header();
+        std::cerr << color::red << "Error: no templates specified\n" << color::reset << "\n";
+        print_usage();
+        return 1;
+    }
+
+    generate(store, templates, output, append, do_preview, verbose);
+    return 0;
 }

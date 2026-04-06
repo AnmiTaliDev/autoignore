@@ -1,3 +1,4 @@
+# @detect: Dockerfile docker-compose.yml docker-compose.yaml
 # Docker build context files
 .dockerignore
 

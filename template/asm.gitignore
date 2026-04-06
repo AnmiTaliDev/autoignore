@@ -1,3 +1,4 @@
+# @detect: *.asm *.s *.S
 # Assembly object files
 *.o
 *.obj

@@ -1,3 +1,4 @@
+# @detect: *.java pom.xml build.gradle gradlew
 # Java compiled files
 *.class
 *.jar

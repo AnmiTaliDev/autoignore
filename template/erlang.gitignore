@@ -1,3 +1,4 @@
+# @detect: *.erl *.hrl rebar.config
 # Erlang compiled files
 *.beam
 *.boot

@@ -1,3 +1,4 @@
+# @detect: *.cpp *.cc *.cxx *.c++ *.hpp *.hh
 # C++ compiled object files
 *.o
 *.obj

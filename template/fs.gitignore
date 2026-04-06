@@ -1,3 +1,4 @@
+# @detect: *.fs *.fsx *.fsproj
 # F# compiled files
 bin/
 obj/

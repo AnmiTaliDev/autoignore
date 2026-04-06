@@ -1,3 +1,4 @@
+# @detect: package.json package-lock.json yarn.lock
 # Node.js dependencies
 node_modules/
 

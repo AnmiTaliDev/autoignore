@@ -1,3 +1,4 @@
+# @detect: *.py requirements.txt setup.py pyproject.toml setup.cfg
 # Python bytecode
 __pycache__/
 *.py[cod]

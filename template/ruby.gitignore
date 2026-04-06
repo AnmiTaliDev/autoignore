@@ -1,3 +1,4 @@
+# @detect: *.rb Gemfile Gemfile.lock
 # Ruby compiled files
 *.gem
 *.rbc
