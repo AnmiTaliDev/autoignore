@@ -1,0 +1,8 @@
+# @detect: *.scala *.sbt build.sbt
+target/
+.bsp/
+.metals/
+.bloop/
+project/target/
+project/project/
+*.class
