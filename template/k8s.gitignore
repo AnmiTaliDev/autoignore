@@ -1,0 +1,8 @@
+# @detect: *.yaml *.yml Chart.yaml helmfile.yaml skaffold.yaml
+*.kubeconfig
+kubeconfig
+secrets/
+*-secret.yaml
+*-secrets.yaml
+override.yaml
+override.yml
