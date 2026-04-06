@@ -1,0 +1,6 @@
+# @detect: *.dart pubspec.yaml pubspec.lock
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+pubspec.lock
