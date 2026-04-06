@@ -1,0 +1,5 @@
+# @detect: build.gradle gradlew settings.gradle gradle.properties
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+local.properties
