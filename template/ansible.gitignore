@@ -1,0 +1,7 @@
+# @detect: ansible.cfg playbook.yml site.yml inventory
+*.retry
+.vault_pass
+vault_password_file
+roles/*/files/secret*
+group_vars/*/vault*
+host_vars/*/vault*
