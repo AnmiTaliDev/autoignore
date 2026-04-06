@@ -1,0 +1,5 @@
+# @detect: Makefile GNUmakefile makefile
+*.o
+*.a
+*.so
+*.d
