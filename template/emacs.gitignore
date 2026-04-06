@@ -1,0 +1,9 @@
+# @detect: *.el *.elc
+*~
+\#*\#
+.\#*
+*.elc
+/elpa/
+auto-save-list
+tramp
+.org-id-locations
