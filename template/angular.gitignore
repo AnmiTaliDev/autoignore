@@ -1,0 +1,5 @@
+# @detect: angular.json .angular/
+dist/
+node_modules/
+.angular/
+*.js.map
