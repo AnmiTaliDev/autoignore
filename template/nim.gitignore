@@ -1,0 +1,5 @@
+# @detect: *.nim *.nimble
+nimcache/
+nimblecache/
+*.out
+*.exe
