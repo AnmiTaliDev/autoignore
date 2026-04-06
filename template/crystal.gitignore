@@ -1,0 +1,5 @@
+# @detect: *.cr shard.yml shard.lock
+lib/
+bin/
+.crystal/
+*.dwarf
