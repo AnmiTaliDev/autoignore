@@ -1,0 +1,14 @@
+# @detect: *.ml *.mli dune-project *.opam
+_build/
+_opam/
+.merlin
+*.byte
+*.native
+*.install
+*.annot
+*.cmo
+*.cmi
+*.cmx
+*.cmt
+*.cmti
+*.o
