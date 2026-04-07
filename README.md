@@ -1,24 +1,12 @@
 # autoignore
 
-Simple and efficient .gitignore generator from templates.
-
-## Features
-
-- Generate .gitignore files from predefined templates
-- Combine multiple templates
-- List available templates
-- User and system-wide template locations
-- Clean GNU/UNIX style interface with colored output
-- Append to existing .gitignore files
+A `.gitignore` generator.
 
 ## Installation
 
 ### Build from source
 
-Requirements:
-- C++20 compatible compiler
-- Meson build system
-- Ninja (recommended)
+**Requirements:** C++ compiler, Meson, Ninja
 
 ```bash
 git clone https://github.com/AnmiTaliDev/autoignore.git
@@ -30,80 +18,86 @@ sudo meson install -C builddir
 
 ## Usage
 
-### Basic usage
-
-Generate .gitignore for C++ project:
-```bash
-autoignore cpp
 ```
-
-Combine multiple templates:
-```bash
-autoignore cpp cmake ides
+autoignore [OPTIONS] [TEMPLATES...]
 ```
 
 ### Options
-
 ```
-Usage: autoignore [OPTIONS] [TEMPLATES...]
-
-Options:
-  -l, --list      List available templates
-  -o, --output    Output file (default: .gitignore)
-  -a, --append    Append to existing file instead of overwriting
-  -v, --verbose   Verbose output
-  -h, --help      Show this help message
+  -l, --list              List available templates
+  -s, --search <query>    Search templates by name
+  -i, --interactive       Select templates interactively
+  -d, --detect            Auto-detect templates from project files
+  -o, --output <file>     Output file (default: .gitignore)
+  -a, --append            Append to existing file
+  -p, --preview           Preview output without writing
+  -v, --verbose           Verbose output
+  -h, --help              Show this help
 ```
-
 ### Examples
 
-List all available templates:
 ```bash
+# Generate .gitignore for a C++ project with CMake
+autoignore cpp cmake
+
+# Combine multiple templates
+autoignore python django vscode
+
+# Append to existing file
+autoignore -a nodejs
+
+# List available templates
 autoignore -l
-```
 
-Generate with custom output file:
-```bash
-autoignore -o .gitignore_cpp cpp
-```
+# Write to a custom path
+autoignore -o /tmp/my.gitignore rust cargo
 
-Append to existing .gitignore:
-```bash
-autoignore -a python
-```
+# Let autoignore detect the project type automatically
+autoignore
 
-Verbose output:
-```bash
-autoignore -v cpp qt cmake
+# Interactive selector
+autoignore -i
 ```
-
 
 ## Template locations
 
-Templates are searched in the following order:
+Templates are searched in order:
 
-1. `~/.local/share/autoignore/template/` (user templates)
-2. `/usr/local/share/autoignore/template/` (local installation)
-3. `/usr/share/autoignore/template/` (system installation)
+1. `~/.local/share/autoignore/template/` — user templates
+2. `/usr/local/share/autoignore/template/` — local installation
+3. `/usr/share/autoignore/template/` — system installation
 
 User templates take precedence over system templates.
 
-## Adding custom templates
-
-Create `.gitignore` files in your user template directory:
+## Custom templates
 
 ```bash
 mkdir -p ~/.local/share/autoignore/template
-echo "*.custom" > ~/.local/share/autoignore/template/mytemplate.gitignore
-autoignore mytemplate
+echo "*.myext" > ~/.local/share/autoignore/template/mytool.gitignore
+autoignore mytool
 ```
 
-Template files should be named `{name}.gitignore`.
+Template files must be named `{name}.gitignore`.
+
+## Shell completions
+
+Completions are installed automatically with `meson install`. To install manually:
+
+```bash
+# Bash
+cp completion/autoignore.bash /etc/bash_completion.d/autoignore
+
+# Zsh
+cp completion/_autoignore /usr/share/zsh/site-functions/_autoignore
+
+# Fish
+cp completion/autoignore.fish ~/.config/fish/completions/autoignore.fish
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-Apache License 2.0
-
-## Author
-
-AnmiTaliDev
+[Apache License 2.0](LICENSE)
