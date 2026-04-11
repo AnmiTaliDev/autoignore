@@ -1,0 +1,15 @@
+# Deno
+# @detect: deno.json deno.jsonc deno.lock
+
+# Deno cache directory
+.deno/
+
+# Lock file (commit for applications, ignore for libraries)
+deno.lock
+
+# Build output
+dist/
+build/
+
+# Coverage
+coverage/
