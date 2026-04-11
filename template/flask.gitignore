@@ -1,0 +1,40 @@
+# Flask
+# @detect: wsgi.py
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Flask instance folder (contains config and db)
+instance/
+
+# Flask session files
+flask_session/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads
+uploads/
+
+# Logs
+*.log
+
+# Environment
+.env
+.flaskenv
+
+# Distribution
+dist/
+build/
+*.egg-info/
