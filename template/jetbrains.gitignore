@@ -1,0 +1,22 @@
+# JetBrains IDEs
+# Covers: IntelliJ IDEA, CLion, GoLand, PyCharm, Rider, WebStorm, etc.
+
+# User-specific settings
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Gradle / Maven caches inside the project
+.idea/libraries/
+.idea/shelf/
+
+# Workspace
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries/
+.idea/shelf/
+
+# Generate files
+out/
