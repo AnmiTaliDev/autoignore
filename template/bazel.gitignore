@@ -1,4 +1,4 @@
-# @detect: WORKSPACE WORKSPACE.bazel BUILD BUILD.bazel .bazelrc
+# @detect: WORKSPACE WORKSPACE.bazel BUILD.bazel .bazelrc
 bazel-bin
 bazel-genfiles
 bazel-out
