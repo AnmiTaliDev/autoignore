@@ -1,0 +1,21 @@
+# Bun
+# @detect: bun.lockb bunfig.toml
+
+# Bun lockfile
+bun.lockb
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.next/
+.nuxt/
+
+# Environment
+.env
+.env.local
+
+# Cache
+.cache/
