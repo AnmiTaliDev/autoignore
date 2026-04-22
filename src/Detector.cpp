@@ -25,8 +25,12 @@ std::vector<std::string> Detector::detect(const fs::path& dir) {
     };
 
     try {
-        for (const auto& e : fs::directory_iterator(dir)) collect(e.path());
         for (auto it = fs::recursive_directory_iterator(dir); it != fs::recursive_directory_iterator{}; ++it) {
+            auto fname = it->path().filename().string();
+            if (!fname.empty() && fname[0] == '.') {
+                if (fs::is_directory(it->path())) it.disable_recursion_pending();
+                continue;
+            }
             if (it.depth() > 3) { it.disable_recursion_pending(); continue; }
             collect(it->path());
         }
