@@ -1,0 +1,5 @@
+# Patch and Diff files
+*.patch
+*.diff
+*.rej
+*.orig
