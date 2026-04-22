@@ -1,0 +1,9 @@
+# Doxygen
+# Default output directories
+html/
+latex/
+rtf/
+xml/
+man/
+# Doxygen log
+doxygen_objdb_*.tmp
