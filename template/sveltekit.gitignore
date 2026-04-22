@@ -1,0 +1,6 @@
+# @detect: svelte.config.js
+.svelte-kit/
+build/
+.env
+.env.*
+!.env.example
