@@ -22,7 +22,6 @@
 *.dSYM/
 
 # C dependency files
-*.d
 *.dep
 
 # C preprocessor output
