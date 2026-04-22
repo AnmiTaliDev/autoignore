@@ -1,0 +1,8 @@
+# @detect: yarn.lock .yarnrc.yml
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+yarn-error.log
