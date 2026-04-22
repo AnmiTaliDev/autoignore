@@ -1,0 +1,32 @@
+# OS Development
+# Compilers and tools
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.bin
+*.elf
+*.iso
+*.img
+*.flp
+*.sys
+
+# Debug and symbols
+*.sym
+*.map
+*.dmp
+*.pdb
+
+# Emulator logs and state
+*.log
+bochsout.txt
+serial.log
+qemu*.log
+*.vmdk
+*.vdi
+*.vhd
+
+# Compiler artifacts
+build/
+bin/
