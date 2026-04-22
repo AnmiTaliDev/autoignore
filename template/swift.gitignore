@@ -17,7 +17,6 @@ Package.resolved
 
 # Swift intermediate files
 *.o
-*.d
 
 # Swift LLVM
 *.bc
