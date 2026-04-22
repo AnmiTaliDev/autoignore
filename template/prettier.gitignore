@@ -1,0 +1,2 @@
+# @detect: .prettierrc .prettierrc.js .prettierrc.cjs .prettierrc.yaml .prettierrc.yml .prettierrc.json .prettierrc.toml .prettierignore
+# Prettier doesn't usually generate files, but it's good for consistency
