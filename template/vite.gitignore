@@ -1,0 +1,4 @@
+# @detect: vite.config.ts vite.config.js vite.config.mjs vite.config.mts
+dist/
+dist-ssr/
+*.local
