@@ -1,0 +1,6 @@
+# Log files
+*.log
+*.err
+*.out
+*.tlog
+*.syslog
