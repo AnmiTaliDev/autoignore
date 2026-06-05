@@ -6,11 +6,6 @@
 *.ear
 *.nar
 
-# Java package files
-*.zip
-*.tar.gz
-*.rar
-
 # Virtual machine crash logs
 hs_err_pid*
 replay_pid*
@@ -21,16 +16,11 @@ build/
 out/
 bin/
 
-# Maven
-.mvn/
-mvnw
-mvnw.cmd
+# Maven local cache
+.mvn/repository/
 
-# Gradle
+# Gradle local cache
 .gradle/
-gradle/
-gradlew
-gradlew.bat
 
 # SBT
 .sbt/
@@ -42,9 +32,6 @@ javadoc/
 
 # Java heap dumps
 *.hprof
-
-# JProfiler
-*.jpr
 
 # JVM options
 .java-version
