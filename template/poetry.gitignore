@@ -1,0 +1,16 @@
+# @detect: poetry.lock
+# Poetry virtual environments
+.venv/
+venv/
+
+# Poetry cache
+.cache/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Distribution
+dist/
+build/
+*.egg-info/
