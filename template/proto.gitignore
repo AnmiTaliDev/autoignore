@@ -1,0 +1,15 @@
+# @detect: *.proto buf.yaml buf.gen.yaml
+# Generated protobuf code
+*.pb.go
+*.pb.cc
+*.pb.h
+*_pb2.py
+*_pb2_grpc.py
+*.pb.js
+*.pb.ts
+*_grpc_pb.js
+*_grpc_pb.d.ts
+
+# buf generated output
+gen/
+generated/
