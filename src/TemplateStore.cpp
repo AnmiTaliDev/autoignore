@@ -35,6 +35,28 @@ std::vector<std::string> TemplateStore::parse_detect_patterns(const fs::path& pa
     return patterns;
 }
 
+std::vector<std::string> TemplateStore::parse_exclude_dirs(const fs::path& path) {
+    std::ifstream f(path);
+    std::vector<std::string> dirs;
+    std::string line;
+    bool in_header = true;
+    while (std::getline(f, line)) {
+        if (in_header) {
+            if (line.empty()) { in_header = false; continue; }
+            if (line[0] == '#') continue;
+            in_header = false;
+        }
+        if (line.empty() || line[0] == '#' || line[0] == '!' || line[0] == '/') continue;
+        if (line.back() != '/') continue;
+        std::string dirname = line.substr(0, line.size() - 1);
+        if (dirname.find('/') != std::string::npos) continue;
+        if (dirname.find_first_of("*?[") != std::string::npos) continue;
+        if (dirname.empty() || dirname[0] == '.') continue;
+        dirs.push_back(dirname);
+    }
+    return dirs;
+}
+
 const std::vector<TemplateStore::Template>& TemplateStore::all() {
     if (cache_valid) return cache;
     cache.clear();
@@ -51,6 +73,7 @@ const std::vector<TemplateStore::Template>& TemplateStore::all() {
                 t.name = name;
                 t.path = entry.path();
                 t.detect_patterns = parse_detect_patterns(entry.path());
+                t.exclude_dirs = parse_exclude_dirs(entry.path());
                 seen.emplace(name, std::move(t));
             }
         }

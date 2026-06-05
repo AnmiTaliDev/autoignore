@@ -12,6 +12,7 @@ public:
         std::string name;
         fs::path path;
         std::vector<std::string> detect_patterns;
+        std::vector<std::string> exclude_dirs;
     };
 
     TemplateStore();
@@ -29,4 +30,5 @@ private:
 
     void init_paths();
     std::vector<std::string> parse_detect_patterns(const fs::path& path);
+    std::vector<std::string> parse_exclude_dirs(const fs::path& path);
 };

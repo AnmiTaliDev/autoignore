@@ -13,6 +13,12 @@ bool Detector::pattern_matches(const std::string& name, const std::string& patte
 }
 
 std::vector<std::string> Detector::detect(const fs::path& dir) {
+    std::unordered_set<std::string> excluded_dirs;
+    for (const auto& tmpl : store.all()) {
+        for (const auto& d : tmpl.exclude_dirs)
+            excluded_dirs.insert(d);
+    }
+
     std::unordered_set<std::string> filenames;
     std::unordered_set<std::string> extensions;
 
@@ -27,8 +33,13 @@ std::vector<std::string> Detector::detect(const fs::path& dir) {
     try {
         for (auto it = fs::recursive_directory_iterator(dir); it != fs::recursive_directory_iterator{}; ++it) {
             auto fname = it->path().filename().string();
-            if (!fname.empty() && fname[0] == '.') {
-                if (fs::is_directory(it->path())) it.disable_recursion_pending();
+            if (fname.empty()) continue;
+            if (fname[0] == '.') {
+                if (it->is_directory()) it.disable_recursion_pending();
+                continue;
+            }
+            if (it->is_directory() && excluded_dirs.count(fname)) {
+                it.disable_recursion_pending();
                 continue;
             }
             if (it.depth() > 3) { it.disable_recursion_pending(); continue; }
