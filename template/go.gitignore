@@ -14,16 +14,9 @@
 coverage.txt
 coverage.html
 
-# Go modules
-go.sum
-
-# Go workspace
-go.work.sum
-
 # Build directory
 bin/
 dist/
 
 # Air live reload
-.air/
 tmp/
