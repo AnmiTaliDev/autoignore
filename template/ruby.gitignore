@@ -1,4 +1,4 @@
-# @detect: *.rb Gemfile Gemfile.lock
+# @detect: *.rb Gemfile
 # Ruby compiled files
 *.gem
 *.rbc
@@ -11,16 +11,13 @@
 
 # Ruby packaging
 pkg/
-*.gem
 
 # RubyGems
-Gemfile.lock
 .bundle/
 vendor/bundle/
 
 # Ruby coverage
 coverage/
-.coverage
 
 # Ruby documentation
 .yardoc/
@@ -29,29 +26,9 @@ doc/
 rdoc/
 
 # Ruby testing
-.rspec
 spec/reports/
 test/tmp/
 test/version_tmp/
 
 # Ruby temporary files
 tmp/
-.ruby-version
-.ruby-gemset
-
-# Byebug
-.byebug_history
-
-# Pry
-.pry_history
-
-# Ruby on Rails
-log/
-db/*.sqlite3
-db/*.sqlite3-journal
-public/assets/
-public/packs/
-storage/
-
-# Capistrano
-config/deploy.rb
