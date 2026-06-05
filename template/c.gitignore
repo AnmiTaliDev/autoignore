@@ -28,10 +28,6 @@
 *.i
 *.ii
 
-# C assembly output
-*.s
-*.asm
-
 # Core dumps
 core
 core.*
