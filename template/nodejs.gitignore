@@ -16,11 +16,6 @@ yarn-error.log*
 .pnpm-debug.log*
 .pnpm-store/
 
-# Package lock files (choose one to keep)
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-
 # Build outputs
 dist/
 build/
