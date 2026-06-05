@@ -1,0 +1,3 @@
+# @detect: biome.json biome.jsonc
+# Biome cache
+.biome/
