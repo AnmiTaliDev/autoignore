@@ -1,0 +1,3 @@
+# @detect: ruff.toml
+# Ruff cache
+.ruff_cache/
