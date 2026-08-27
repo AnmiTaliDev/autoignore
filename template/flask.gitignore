@@ -1,6 +1,4 @@
-# Flask
-# @detect: wsgi.py
-
+# @detect: .flaskenv
 # Python bytecode
 __pycache__/
 *.py[cod]
