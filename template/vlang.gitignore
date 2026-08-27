@@ -1,0 +1,9 @@
+# @detect: *.v v.mod
+*.exe
+*.out
+*.o
+*.so
+*.dylib
+*.dll
+.vmodules/
+v_test.c
