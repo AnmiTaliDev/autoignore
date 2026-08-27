@@ -1,0 +1,4 @@
+# @detect: *.rkt *.scrbl info.rkt
+compiled/
+*.zo
+*.dep
