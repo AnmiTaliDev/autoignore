@@ -4,7 +4,7 @@ Thank you to everyone who has contributed to autoignore!
 
 ## Maintainer
 
-- **AnmiTaliDev** — creator and maintainer
+- **AnmiTaliDev** - creator and maintainer
 
 ---
 

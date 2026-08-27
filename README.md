@@ -63,9 +63,9 @@ autoignore -i
 
 Templates are searched in order:
 
-1. `~/.local/share/autoignore/template/` — user templates
-2. `/usr/local/share/autoignore/template/` — local installation
-3. `/usr/share/autoignore/template/` — system installation
+1. `~/.local/share/autoignore/template/` - user templates
+2. `/usr/local/share/autoignore/template/` - local installation
+3. `/usr/share/autoignore/template/` - system installation
 
 User templates take precedence over system templates.
 

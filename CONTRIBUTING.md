@@ -49,9 +49,9 @@ Templates live in `template/` and are named `{name}.gitignore` (lowercase).
 
 ### Template guidelines
 
-- **Lowercase names** — `rust.gitignore`, not `Rust.gitignore`
-- **Focused scope** — only include files the tool/language actually generates
-- **No broad wildcards** — prefer `*.pyc` over `*`
+- **Lowercase names** - `rust.gitignore`, not `Rust.gitignore`
+- **Focused scope** - only include files the tool/language actually generates
+- **No broad wildcards** - prefer `*.pyc` over `*`
 - **Add comments** for non-obvious patterns
 
 ---

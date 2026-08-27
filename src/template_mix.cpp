@@ -62,7 +62,6 @@ private:
                 std::string name = filename.substr(0, filename.length() - 10);
                 size_t size = entry.file_size();
                 
-                // Priority: user templates override system templates
                 if (templates.find(name) == templates.end()) {
                     templates.emplace(name, TemplateInfo(name, entry.path(), size));
                 }
@@ -103,7 +102,6 @@ private:
             if (line.empty()) continue;
             if (line[0] != '#') break;
             
-            // Remove leading # and whitespace
             std::string desc = line.substr(1);
             if (!desc.empty() && desc[0] == ' ') {
                 desc = desc.substr(1);
@@ -112,7 +110,7 @@ private:
             if (!desc.empty() && desc != "gitignore" && 
                 desc.find("Generated") == std::string::npos) {
                 desc_lines.push_back(desc);
-                if (desc_lines.size() >= 2) break; // First meaningful comment lines
+                if (desc_lines.size() >= 2) break;
             }
         }
         
@@ -123,7 +121,6 @@ private:
             result += " " + desc_lines[1];
         }
         
-        // Truncate if too long
         if (result.length() > 60) {
             result = result.substr(0, 57) + "...";
         }
@@ -146,10 +143,8 @@ private:
             std::string line;
             
             while (std::getline(stream, line)) {
-                // Skip comments and empty lines
                 if (line.empty() || line[0] == '#') continue;
                 
-                // Trim whitespace
                 line.erase(0, line.find_first_not_of(" \t"));
                 line.erase(line.find_last_not_of(" \t") + 1);
                 
@@ -159,7 +154,6 @@ private:
             }
         }
         
-        // Find conflicts
         std::vector<std::pair<std::string, std::vector<std::string>>> conflicts;
         for (const auto& pair : pattern_sources) {
             if (pair.second.size() > 1) {
@@ -183,10 +177,8 @@ private:
     }
     
     void optimize_template_order(std::vector<std::string>& template_names) {
-        // Simple heuristic: put broader templates first, specific ones last
         std::sort(template_names.begin(), template_names.end(), 
                  [](const std::string& a, const std::string& b) {
-                     // Common base templates should come first
                      static const std::vector<std::string> base_templates = {
                          "global", "macos", "windows", "linux"
                      };
@@ -197,10 +189,10 @@ private:
                                      != base_templates.end();
                      
                      if (a_is_base != b_is_base) {
-                         return a_is_base; // Base templates first
+                         return a_is_base;
                      }
                      
-                     return a < b; // Alphabetical otherwise
+                     return a < b;
                  });
     }
     
@@ -228,7 +220,6 @@ public:
             
             std::cout << color::green << color::bold << tmpl.name << color::reset;
             
-            // Size info
             std::string size_str;
             if (tmpl.size < 1024) {
                 size_str = std::to_string(tmpl.size) + "B";
@@ -240,7 +231,6 @@ public:
             
             std::cout << color::gray << " (" << size_str << ")" << color::reset;
             
-            // Source location indicator
             bool is_user_template = tmpl.path.string().find("/.local/") != std::string::npos;
             if (is_user_template) {
                 std::cout << color::blue << " [user]" << color::reset;
@@ -266,12 +256,10 @@ public:
         }
         std::cout << std::endl << std::endl;
         
-        // Analyze conflicts
         if (template_names.size() > 1) {
             analyze_template_conflicts(template_names);
         }
         
-        // Show combined stats
         size_t total_lines = 0;
         size_t total_patterns = 0;
         
@@ -317,7 +305,6 @@ public:
         auto templates = scan_templates();
         
         if (project_hint.empty()) {
-            // Default suggestions
             std::vector<std::string> common = {"global", "macos", "windows", "linux"};
             for (const auto& name : common) {
                 auto it = std::find_if(templates.begin(), templates.end(),
@@ -327,7 +314,6 @@ public:
                 }
             }
         } else {
-            // Project-specific suggestions based on hint
             std::string hint_lower = project_hint;
             std::transform(hint_lower.begin(), hint_lower.end(), hint_lower.begin(), ::tolower);
             
@@ -407,7 +393,7 @@ public:
             std::cout << "Optimized order: ";
             for (size_t i = 0; i < template_names.size(); ++i) {
                 std::cout << color::green << template_names[i] << color::reset;
-                if (i < template_names.size() - 1) std::cout << " → ";
+                if (i < template_names.size() - 1) std::cout << " \u2192 ";
             }
             std::cout << std::endl;
         }

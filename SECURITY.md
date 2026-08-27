@@ -24,8 +24,8 @@ You can expect an acknowledgment within 72 hours. We will work with you to under
 
 autoignore reads template files from disk and writes `.gitignore` files. Relevant security considerations include:
 
-- **Path traversal** — template names must not escape the template directory
-- **Symlink attacks** — malicious templates in shared directories
-- **Output path** — the `-o` flag writes to a user-specified path
+- **Path traversal** - template names must not escape the template directory
+- **Symlink attacks** - malicious templates in shared directories
+- **Output path** - the `-o` flag writes to a user-specified path
 
 If you find any issue in these areas, please report it.

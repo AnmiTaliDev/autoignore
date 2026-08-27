@@ -18,9 +18,9 @@ The binary ends up at `builddir/autoignore`. Always build and run it to verify c
 ## Key conventions
 
 - **C++20**, warning level 3 (`-Wall -Wextra -Wpedantic` equivalent)
-- Template files are named `{name}.gitignore` — always **lowercase**
-- Template search order: `~/.local/share/autoignore/template/` → `/usr/local/share/autoignore/template/` → `/usr/share/autoignore/template/`
-- No external runtime dependencies — only the standard library and `stdc++fs`
+- Template files are named `{name}.gitignore` - always **lowercase**
+- Template search order: `~/.local/share/autoignore/template/` -> `/usr/local/share/autoignore/template/` -> `/usr/share/autoignore/template/`
+- No external runtime dependencies - only the standard library and `stdc++fs`
 
 ## Adding a template
 
@@ -48,4 +48,4 @@ meson compile -C builddir && ./builddir/autoignore {name}
 - Do not add external dependencies
 - Do not change the template naming convention
 - Do not lower the warning level or disable warnings
-- Do not modify `builddir/` — it is a build artifact directory
+- Do not modify `builddir/` - it is a build artifact directory
