@@ -2,47 +2,96 @@
 #include "Common.hpp"
 
 #include <algorithm>
+#include <csignal>
 #include <iostream>
 #include <termios.h>
 #include <unistd.h>
 
-InteractiveSelector::~InteractiveSelector() {
-    disable_raw();
-    delete orig_termios;
-}
+namespace {
+    struct TerminalGuard {
+        struct termios orig_termios {};
+        bool raw_active = false;
+        static inline TerminalGuard* active_instance = nullptr;
+        struct sigaction old_sigint {};
+        struct sigaction old_sigterm {};
 
-void InteractiveSelector::enable_raw() {
-    orig_termios = new struct termios;
-    tcgetattr(STDIN_FILENO, orig_termios);
-    struct termios raw = *orig_termios;
-    raw.c_lflag &= ~(ECHO | ICANON);
-    raw.c_cc[VMIN] = 1;
-    raw.c_cc[VTIME] = 0;
-    tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
-    raw_active = true;
-}
+        static void signal_handler(int sig) {
+            if (active_instance) {
+                active_instance->restore();
+            }
+            std::signal(sig, SIG_DFL);
+            std::raise(sig);
+        }
 
-void InteractiveSelector::disable_raw() {
-    if (raw_active && orig_termios) {
-        tcsetattr(STDIN_FILENO, TCSAFLUSH, orig_termios);
-        raw_active = false;
-    }
+        TerminalGuard() {
+            if (tcgetattr(STDIN_FILENO, &orig_termios) == 0) {
+                struct termios raw = orig_termios;
+                raw.c_lflag &= ~(ECHO | ICANON);
+                raw.c_cc[VMIN] = 1;
+                raw.c_cc[VTIME] = 0;
+                if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == 0) {
+                    raw_active = true;
+                }
+            }
+            std::cout << "\033[?25l";
+            std::cout.flush();
+
+            active_instance = this;
+
+            struct sigaction sa {};
+            sa.sa_handler = signal_handler;
+            sigemptyset(&sa.sa_mask);
+            sa.sa_flags = 0;
+            sigaction(SIGINT, &sa, &old_sigint);
+            sigaction(SIGTERM, &sa, &old_sigterm);
+        }
+
+        void restore() {
+            if (raw_active) {
+                tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+                raw_active = false;
+            }
+            std::cout << "\033[?25h";
+            std::cout.flush();
+            sigaction(SIGINT, &old_sigint, nullptr);
+            sigaction(SIGTERM, &old_sigterm, nullptr);
+            if (active_instance == this) active_instance = nullptr;
+        }
+
+        ~TerminalGuard() {
+            restore();
+        }
+
+        TerminalGuard(const TerminalGuard&) = delete;
+        TerminalGuard& operator=(const TerminalGuard&) = delete;
+    };
 }
 
 int InteractiveSelector::read_key() {
     char c;
     if (read(STDIN_FILENO, &c, 1) != 1) return K_QUIT;
+    if (c == 3 || c == 4)       return K_QUIT;
     if (c == '\r' || c == '\n') return K_ENTER;
     if (c == ' ')               return K_SPACE;
-    if (c == 'q' || c == 'Q')  return K_QUIT;
     if (c == 127 || c == 8)    return K_BACKSPACE;
     if (c == 27) {
+        struct termios orig_t, nonblock_t;
+        tcgetattr(STDIN_FILENO, &orig_t);
+        nonblock_t = orig_t;
+        nonblock_t.c_cc[VMIN] = 0;
+        nonblock_t.c_cc[VTIME] = 1;
+        tcsetattr(STDIN_FILENO, TCSANOW, &nonblock_t);
+
         char seq[2];
-        if (read(STDIN_FILENO, &seq[0], 1) != 1) return K_QUIT;
-        if (seq[0] == '[') {
-            if (read(STDIN_FILENO, &seq[1], 1) != 1) return K_QUIT;
-            if (seq[1] == 'A') return K_UP;
-            if (seq[1] == 'B') return K_DOWN;
+        ssize_t n1 = read(STDIN_FILENO, &seq[0], 1);
+        ssize_t n2 = (n1 == 1) ? read(STDIN_FILENO, &seq[1], 1) : 0;
+        tcsetattr(STDIN_FILENO, TCSANOW, &orig_t);
+
+        if (n1 == 1 && seq[0] == '[') {
+            if (n2 == 1) {
+                if (seq[1] == 'A') return K_UP;
+                if (seq[1] == 'B') return K_DOWN;
+            }
         }
         return K_QUIT;
     }
@@ -100,7 +149,7 @@ std::vector<std::string> InteractiveSelector::select(
         };
 
         ln(color::bold, color::cyan, "Select templates", color::reset,
-           color::gray, "  ↑↓ move  Space toggle  Enter confirm  q quit", color::reset);
+           color::gray, "  \u2191\u2193 move  Space toggle  Enter confirm  Esc/Ctrl+C quit", color::reset);
 
         ln(color::gray, "Filter: ", color::reset,
            color::white, filter, color::reset,
@@ -152,8 +201,7 @@ std::vector<std::string> InteractiveSelector::select(
         std::cout.flush();
     };
 
-    enable_raw();
-    std::cout << "\033[?25l";
+    TerminalGuard guard;
     render();
 
     bool done = false;
@@ -191,8 +239,7 @@ std::vector<std::string> InteractiveSelector::select(
         if (!done) render();
     }
 
-    std::cout << "\033[?25h";
-    disable_raw();
+    guard.restore();
     move_up_and_clear(rendered);
 
     if (cancelled) {
