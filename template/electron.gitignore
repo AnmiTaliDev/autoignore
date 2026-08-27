@@ -1,4 +1,4 @@
-# @detect: electron-builder.yml electron-builder.json electron.js
+# @detect: electron-builder.yml electron-builder.json forge.config.js forge.config.ts
 dist/
 out/
 release/
