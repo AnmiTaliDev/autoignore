@@ -1,0 +1,3 @@
+# @detect: gleam.toml
+build/
+.erlang_build/
