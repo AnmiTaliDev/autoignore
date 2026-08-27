@@ -1,0 +1,4 @@
+# @detect: *.pkr.hcl *.pkr.json
+packer_cache/
+*.box
+crash.log
