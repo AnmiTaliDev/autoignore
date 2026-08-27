@@ -28,20 +28,23 @@ autoignore [OPTIONS] [TEMPLATES...]
   -s, --search <query>    Search templates by name
   -i, --interactive       Select templates interactively
   -d, --detect            Auto-detect templates from project files
+  -M, --max-depth <num>   Maximum directory depth for auto-detection (default: 3)
   -o, --output <file>     Output file (default: .gitignore)
   -a, --append            Append to existing file
   -p, --preview           Preview output without writing
+  -u, --dedup             Deduplicate repeated patterns
   -v, --verbose           Verbose output
   -h, --help              Show this help
 ```
+
 ### Examples
 
 ```bash
 # Generate .gitignore for a C++ project with CMake
 autoignore cpp cmake
 
-# Combine multiple templates
-autoignore python django vscode
+# Combine multiple templates with deduplication
+autoignore -u nodejs react vite
 
 # Append to existing file
 autoignore -a nodejs
@@ -53,7 +56,7 @@ autoignore -l
 autoignore -o /tmp/my.gitignore rust cargo
 
 # Let autoignore detect the project type automatically
-autoignore
+autoignore -d
 
 # Interactive selector
 autoignore -i
@@ -63,9 +66,11 @@ autoignore -i
 
 Templates are searched in order:
 
-1. `~/.local/share/autoignore/template/` - user templates
-2. `/usr/local/share/autoignore/template/` - local installation
-3. `/usr/share/autoignore/template/` - system installation
+1. `$AUTOIGNORE_PATH` (colon-separated custom paths)
+2. `./template/` - current project template directory
+3. Relative to executable (`<exe_dir>/template/` and `<exe_dir>/../share/autoignore/template/`)
+4. `$XDG_DATA_HOME/autoignore/template/` (default: `~/.local/share/autoignore/template/`)
+5. `$XDG_DATA_DIRS/autoignore/template/` (default: `/usr/local/share/...`, `/usr/share/...`)
 
 User templates take precedence over system templates.
 
