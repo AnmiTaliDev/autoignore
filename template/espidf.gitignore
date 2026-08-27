@@ -1,0 +1,5 @@
+# @detect: sdkconfig idf_component.yml
+build/
+managed_components/
+sdkconfig.old
+sdkconfig.ci
