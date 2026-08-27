@@ -1,0 +1,9 @@
+# @detect: *.kicad_pro *.kicad_pcb *.kicad_sch
+*-save.kicad_pcb
+*-save.kicad_sch
+*.kicad_prl
+_autosave-*
+*.bak
+*.kicad_pcb-bak
+*.kicad_sch-bak
+fp-info-cache
