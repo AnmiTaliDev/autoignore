@@ -1,0 +1,14 @@
+# @detect: *.pas *.pp *.lpr
+*.o
+*.ppu
+*.rst
+*.compiled
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+lib/
+backup/
+*.bak
+*.lps
