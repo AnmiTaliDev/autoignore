@@ -1,0 +1,8 @@
+# @detect: app.config.ts app.config.js
+.solid/
+.vinxi/
+.output/
+dist/
+.env
+.env.*
+!.env.example
