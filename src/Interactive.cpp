@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <csignal>
 #include <iostream>
+#include <poll.h>
 #include <termios.h>
 #include <unistd.h>
 
@@ -70,28 +71,51 @@ namespace {
 int InteractiveSelector::read_key() {
     char c;
     if (read(STDIN_FILENO, &c, 1) != 1) return K_QUIT;
+
+    if (c == 1)                 return K_CTRL_A;
     if (c == 3 || c == 4)       return K_QUIT;
+    if (c == 9)                 return K_TAB;
+    if (c == 18)                return K_CTRL_R;
+    if (c == 21)                return K_CTRL_U;
+    if (c == 23)                return K_CTRL_W;
     if (c == '\r' || c == '\n') return K_ENTER;
     if (c == ' ')               return K_SPACE;
     if (c == 127 || c == 8)    return K_BACKSPACE;
+
     if (c == 27) {
-        struct termios orig_t, nonblock_t;
-        tcgetattr(STDIN_FILENO, &orig_t);
-        nonblock_t = orig_t;
-        nonblock_t.c_cc[VMIN] = 0;
-        nonblock_t.c_cc[VTIME] = 1;
-        tcsetattr(STDIN_FILENO, TCSANOW, &nonblock_t);
+        struct pollfd pfd = { STDIN_FILENO, POLLIN, 0 };
+        if (poll(&pfd, 1, 50) <= 0) {
+            return K_QUIT;
+        }
 
-        char seq[2];
-        ssize_t n1 = read(STDIN_FILENO, &seq[0], 1);
-        ssize_t n2 = (n1 == 1) ? read(STDIN_FILENO, &seq[1], 1) : 0;
-        tcsetattr(STDIN_FILENO, TCSANOW, &orig_t);
+        char seq[4] = {0};
+        if (read(STDIN_FILENO, &seq[0], 1) != 1) return K_QUIT;
 
-        if (n1 == 1 && seq[0] == '[') {
-            if (n2 == 1) {
-                if (seq[1] == 'A') return K_UP;
-                if (seq[1] == 'B') return K_DOWN;
+        if (seq[0] == '[') {
+            if (poll(&pfd, 1, 50) <= 0) return K_QUIT;
+            if (read(STDIN_FILENO, &seq[1], 1) != 1) return K_QUIT;
+
+            if (seq[1] == 'A') return K_UP;
+            if (seq[1] == 'B') return K_DOWN;
+            if (seq[1] == 'H') return K_HOME;
+            if (seq[1] == 'F') return K_END;
+
+            if (seq[1] >= '1' && seq[1] <= '8') {
+                if (poll(&pfd, 1, 50) > 0 && read(STDIN_FILENO, &seq[2], 1) == 1 && seq[2] == '~') {
+                    if (seq[1] == '1' || seq[1] == '7') return K_HOME;
+                    if (seq[1] == '4' || seq[1] == '8') return K_END;
+                    if (seq[1] == '3') return K_DELETE;
+                    if (seq[1] == '5') return K_PAGE_UP;
+                    if (seq[1] == '6') return K_PAGE_DOWN;
+                }
             }
+        } else if (seq[0] == 'O') {
+            if (poll(&pfd, 1, 50) <= 0) return K_QUIT;
+            if (read(STDIN_FILENO, &seq[1], 1) != 1) return K_QUIT;
+            if (seq[1] == 'A') return K_UP;
+            if (seq[1] == 'B') return K_DOWN;
+            if (seq[1] == 'H') return K_HOME;
+            if (seq[1] == 'F') return K_END;
         }
         return K_QUIT;
     }
@@ -162,7 +186,7 @@ std::vector<std::string> InteractiveSelector::select(
         };
 
         ln(color::bold, color::cyan, "Select templates", color::reset,
-           color::gray, "  \u2191\u2193 move  Space toggle  Enter confirm  Esc/Ctrl+C quit", color::reset);
+           color::gray, "  \u2191\u2193/PgUp/PgDn move  Space/Tab toggle  Ctrl+A all  Ctrl+U clear  Enter confirm  Esc quit", color::reset);
 
         ln(color::gray, "Filter: ", color::reset,
            color::white, filter, color::reset,
@@ -229,6 +253,19 @@ std::vector<std::string> InteractiveSelector::select(
             case K_DOWN:
                 if (cursor < (int)visible.size() - 1) cursor++;
                 break;
+            case K_PAGE_UP:
+                cursor = std::max(0, cursor - PAGE);
+                break;
+            case K_PAGE_DOWN:
+                cursor = std::min((int)visible.size() - 1, cursor + PAGE);
+                if (cursor < 0) cursor = 0;
+                break;
+            case K_HOME:
+                cursor = 0;
+                break;
+            case K_END:
+                cursor = std::max(0, (int)visible.size() - 1);
+                break;
             case K_SPACE:
                 if (!visible.empty()) {
                     const auto& name = visible[cursor];
@@ -236,6 +273,42 @@ std::vector<std::string> InteractiveSelector::select(
                     else selected.insert(name);
                 }
                 break;
+            case K_TAB:
+                if (!visible.empty()) {
+                    const auto& name = visible[cursor];
+                    if (selected.count(name)) selected.erase(name);
+                    else selected.insert(name);
+                    if (cursor < (int)visible.size() - 1) cursor++;
+                }
+                break;
+            case K_CTRL_A: {
+                if (!visible.empty()) {
+                    bool all_sel = true;
+                    for (const auto& name : visible) {
+                        if (!selected.count(name)) { all_sel = false; break; }
+                    }
+                    for (const auto& name : visible) {
+                        if (all_sel) selected.erase(name);
+                        else selected.insert(name);
+                    }
+                }
+                break;
+            }
+            case K_CTRL_R:
+                selected.clear();
+                break;
+            case K_CTRL_U:
+                if (!filter.empty()) {
+                    filter.clear();
+                    refilter();
+                }
+                break;
+            case K_CTRL_W: {
+                while (!filter.empty() && filter.back() == ' ') filter.pop_back();
+                while (!filter.empty() && filter.back() != ' ') filter.pop_back();
+                refilter();
+                break;
+            }
             case K_ENTER:
                 done = true;
                 break;
@@ -243,6 +316,7 @@ std::vector<std::string> InteractiveSelector::select(
                 done = cancelled = true;
                 break;
             case K_BACKSPACE:
+            case K_DELETE:
                 if (!filter.empty()) { filter.pop_back(); refilter(); }
                 break;
             default:
