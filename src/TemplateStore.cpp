@@ -5,17 +5,85 @@
 #include <sstream>
 #include <unordered_map>
 #include <cstdlib>
+#include <unistd.h>
 
 TemplateStore::TemplateStore() {
     init_paths();
 }
 
-void TemplateStore::init_paths() {
-    if (const char* home = std::getenv("HOME")) {
-        search_paths.push_back(fs::path(home) / ".local/share/autoignore/template");
+static fs::path get_executable_dir() {
+    char buf[4096];
+    ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
+    if (len != -1) {
+        buf[len] = '\0';
+        return fs::path(buf).parent_path();
     }
-    search_paths.push_back("/usr/local/share/autoignore/template");
-    search_paths.push_back("/usr/share/autoignore/template");
+    return {};
+}
+
+void TemplateStore::init_paths() {
+    auto add_path = [this](const fs::path& p) {
+        if (p.empty()) return;
+        std::error_code ec;
+        fs::path norm = fs::weakly_canonical(p, ec);
+        if (ec) norm = fs::absolute(p, ec);
+        for (const auto& existing : search_paths) {
+            std::error_code ec2;
+            fs::path existing_norm = fs::weakly_canonical(existing, ec2);
+            if (!ec && !ec2 && existing_norm == norm) return;
+            if (existing == p) return;
+        }
+        search_paths.push_back(p);
+    };
+
+    if (const char* custom_path = std::getenv("AUTOIGNORE_PATH")) {
+        std::string_view sv(custom_path);
+        size_t start = 0;
+        while (start < sv.size()) {
+            size_t end = sv.find(':', start);
+            if (end == std::string_view::npos) end = sv.size();
+            if (end > start) {
+                add_path(fs::path(std::string(sv.substr(start, end - start))));
+            }
+            start = end + 1;
+        }
+    }
+
+    std::error_code cwd_ec;
+    fs::path cwd = fs::current_path(cwd_ec);
+    if (!cwd_ec) {
+        add_path(cwd / "template");
+    }
+
+    fs::path exe_dir = get_executable_dir();
+    if (!exe_dir.empty()) {
+        add_path(exe_dir / "template");
+        add_path(exe_dir / ".." / "share" / "autoignore" / "template");
+    }
+
+    if (const char* xdg_data = std::getenv("XDG_DATA_HOME")) {
+        if (xdg_data[0] != '\0') {
+            add_path(fs::path(xdg_data) / "autoignore" / "template");
+        }
+    } else if (const char* home = std::getenv("HOME")) {
+        add_path(fs::path(home) / ".local" / "share" / "autoignore" / "template");
+    }
+
+    if (const char* xdg_dirs = std::getenv("XDG_DATA_DIRS")) {
+        std::string_view sv(xdg_dirs);
+        size_t start = 0;
+        while (start < sv.size()) {
+            size_t end = sv.find(':', start);
+            if (end == std::string_view::npos) end = sv.size();
+            if (end > start) {
+                add_path(fs::path(std::string(sv.substr(start, end - start))) / "autoignore" / "template");
+            }
+            start = end + 1;
+        }
+    } else {
+        add_path("/usr/local/share/autoignore/template");
+        add_path("/usr/share/autoignore/template");
+    }
 }
 
 std::vector<std::string> TemplateStore::parse_detect_patterns(const fs::path& path) {
@@ -101,7 +169,7 @@ std::vector<const TemplateStore::Template*> TemplateStore::search(const std::str
     for (const auto& t : cache) {
         std::string n = t.name;
         std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-        if (n.find(q) != std::string::npos) results.push_back(&t);
+        if (n.find(q) != std::string::npos) results.push_back(&t);\
     }
     return results;
 }
