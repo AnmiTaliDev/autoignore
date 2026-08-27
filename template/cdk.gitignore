@@ -1,0 +1,3 @@
+# @detect: cdk.json
+cdk.out/
+.cdk.staging/
