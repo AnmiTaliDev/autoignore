@@ -13,9 +13,6 @@
 terraform.tfvars
 terraform.tfvars.json
 
-# Terraform lock file
-.terraform.lock.hcl
-
 # Terraform cache
 .terraform/
 

@@ -1,5 +1,4 @@
-# @detect: *.jl Project.toml Manifest.toml
-Manifest.toml
+# @detect: *.jl Project.toml
 *.ji
 *.o
 deps/deps.jl

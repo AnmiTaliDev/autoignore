@@ -8,16 +8,12 @@ obj/
 *.dll
 *.pdb
 
-# F# interactive
-*.fsx.lock
-
 # F# project cache
 .fake/
 .paket/
 
 # FAKE build tool
 .fake/
-build.fsx.lock
 
 # Paket dependency manager
 paket-files/

@@ -1,33 +1,30 @@
-# @detect: *.php composer.json composer.lock
-# PHP compiled files
+# @detect: *.php composer.json
+# PHP archive
 *.phar
 
-# Composer
+# Composer dependencies
 vendor/
-composer.lock
 composer.phar
 
-# PHP logs
+# Logs
 *.log
 logs/
 
-# PHP cache
+# Cache
 cache/
 *.cache
 
-# PHPUnit
+# Testing
 .phpunit.result.cache
 build/
 coverage/
 
-# PHP temporary files
+# Temporary files
 *.tmp
 tmp/
-
-# PHP session files
 sessions/
 
-# PHP opcache
+# OPcache
 .opcache/
 
 # PHP-CS-Fixer

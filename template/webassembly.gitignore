@@ -1,11 +1,8 @@
 # @detect: *.wat *.wasm
 # WebAssembly compiled files
 *.wasm
-*.wat
-*.wast
 
 # Emscripten
-*.js
 *.js.mem
 *.js.symbols
 *.wasm.map

@@ -22,9 +22,6 @@ result-*
 # Nix expression evaluation cache
 .nix-defexpr/
 
-# Flakes lock file (optional - depends on project policy)
-flake.lock
-
 # Cachix
 .cachix/
 

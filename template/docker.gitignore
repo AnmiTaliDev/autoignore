@@ -1,7 +1,4 @@
 # @detect: Dockerfile docker-compose.yml docker-compose.yaml
-# Docker build context files
-.dockerignore
-
 # Docker compose override files
 docker-compose.override.yml
 docker-compose.override.yaml

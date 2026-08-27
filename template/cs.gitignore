@@ -11,9 +11,6 @@ obj/
 *.nupkg
 *.snupkg
 
-# Assembly info
-AssemblyInfo.cs
-
 # C# user files
 *.user
 *.suo
@@ -21,9 +18,6 @@ AssemblyInfo.cs
 
 # C# temporary files
 *.tmp
-
-# Roslyn analyzer cache
-.analyzerconfig
 
 # StyleCop cache
 StyleCopReport.xml

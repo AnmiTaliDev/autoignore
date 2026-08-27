@@ -9,7 +9,6 @@
 # Android build directories
 build/
 .gradle/
-gradle/
 
 # Android signing files
 *.jks

@@ -6,7 +6,6 @@ build/
 
 # Tauri generated files
 src-tauri/gen/
-src-tauri/Cargo.lock
 
 # Tauri WiX installer
 src-tauri/wix/

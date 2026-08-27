@@ -19,9 +19,6 @@ src/
 *.log
 .makepkg/
 
-# Arch build system
-*.SRCINFO
-
 # Downloaded sources cache
 *.part
 

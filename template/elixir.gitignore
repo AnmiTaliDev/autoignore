@@ -12,9 +12,6 @@ doc/
 cover/
 *.coverdata
 
-# Mix lock file
-mix.lock
-
 # Elixir releases
 rel/
 *.tar.gz

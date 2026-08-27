@@ -27,9 +27,6 @@ Components/obj/
 appsettings.Development.json
 appsettings.Local.json
 
-# Entity Framework
-Migrations/
-
 # SignalR TypeScript output
 *.js.map
 wwwroot/js/signalr/

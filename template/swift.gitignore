@@ -6,7 +6,6 @@
 
 # Swift Package Manager
 .build/
-Package.resolved
 .swiftpm/
 
 # Swift executables
@@ -35,7 +34,6 @@ DerivedData/
 
 # Swift testing
 .build-tests/
-Tests/LinuxMain.swift
 
 # Swift documentation
 docs/
@@ -43,7 +41,3 @@ docs/
 
 # Swift formatter
 .swift-format
-
-# Vapor framework
-Public/
-Resources/

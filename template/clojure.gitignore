@@ -3,5 +3,4 @@ target/
 .cpcache/
 .clj-kondo/
 .lsp/
-pom.xml
 *.class

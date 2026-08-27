@@ -1,13 +1,6 @@
 # @detect: *.vala *.vapi
-# Vala compiled files
-*.c
-*.h
-
 # Vala executables
 *.exe
-
-# Vala API files
-*.vapi
 
 # Vala intermediate files
 *.valadoc
