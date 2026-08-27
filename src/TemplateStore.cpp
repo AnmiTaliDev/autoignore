@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include <unordered_map>
 #include <cstdlib>
 #include <unistd.h>
 
@@ -86,31 +85,23 @@ void TemplateStore::init_paths() {
     }
 }
 
-std::vector<std::string> TemplateStore::parse_detect_patterns(const fs::path& path) {
+void TemplateStore::parse_template_header(const fs::path& path,
+                                         std::vector<std::string>& detect_patterns,
+                                         std::vector<std::string>& exclude_dirs)
+{
     std::ifstream f(path);
-    std::vector<std::string> patterns;
-    std::string line;
-    while (std::getline(f, line)) {
-        if (line.empty()) break;
-        if (line.rfind("# @detect:", 0) == 0) {
-            std::istringstream ss(line.substr(10));
-            std::string token;
-            while (ss >> token) patterns.push_back(token);
-        } else if (line[0] != '#') {
-            break;
-        }
-    }
-    return patterns;
-}
-
-std::vector<std::string> TemplateStore::parse_exclude_dirs(const fs::path& path) {
-    std::ifstream f(path);
-    std::vector<std::string> dirs;
+    if (!f) return;
     std::string line;
     bool in_header = true;
     while (std::getline(f, line)) {
         if (in_header) {
             if (line.empty()) { in_header = false; continue; }
+            if (line.rfind("# @detect:", 0) == 0) {
+                std::istringstream ss(line.substr(10));
+                std::string token;
+                while (ss >> token) detect_patterns.push_back(token);
+                continue;
+            }
             if (line[0] == '#') continue;
             in_header = false;
         }
@@ -120,43 +111,55 @@ std::vector<std::string> TemplateStore::parse_exclude_dirs(const fs::path& path)
         if (dirname.find('/') != std::string::npos) continue;
         if (dirname.find_first_of("*?[") != std::string::npos) continue;
         if (dirname.empty() || dirname[0] == '.') continue;
-        dirs.push_back(dirname);
+        exclude_dirs.push_back(std::move(dirname));
     }
-    return dirs;
 }
 
 const std::vector<TemplateStore::Template>& TemplateStore::all() {
     if (cache_valid) return cache;
     cache.clear();
+    name_to_index.clear();
+
     std::unordered_map<std::string, Template> seen;
+    seen.reserve(150);
+
     for (const auto& base : search_paths) {
-        if (!fs::exists(base) || !fs::is_directory(base)) continue;
-        for (const auto& entry : fs::directory_iterator(base)) {
-            if (!entry.is_regular_file()) continue;
+        std::error_code ec;
+        if (!fs::exists(base, ec) || !fs::is_directory(base, ec)) continue;
+        for (const auto& entry : fs::directory_iterator(base, fs::directory_options::skip_permission_denied, ec)) {
+            if (!entry.is_regular_file(ec)) continue;
             auto fname = entry.path().filename().string();
             if (!fname.ends_with(".gitignore")) continue;
             std::string name = fname.substr(0, fname.size() - 10);
-            if (!seen.count(name)) {
+            if (seen.find(name) == seen.end()) {
                 Template t;
                 t.name = name;
                 t.path = entry.path();
-                t.detect_patterns = parse_detect_patterns(entry.path());
-                t.exclude_dirs = parse_exclude_dirs(entry.path());
-                seen.emplace(name, std::move(t));
+                parse_template_header(entry.path(), t.detect_patterns, t.exclude_dirs);
+                seen.emplace(std::move(name), std::move(t));
             }
         }
     }
+
+    cache.reserve(seen.size());
     for (auto& [k, v] : seen) cache.push_back(std::move(v));
     std::sort(cache.begin(), cache.end(),
               [](const Template& a, const Template& b) { return a.name < b.name; });
+
+    name_to_index.reserve(cache.size());
+    for (size_t i = 0; i < cache.size(); ++i) {
+        name_to_index.emplace(cache[i].name, i);
+    }
+
     cache_valid = true;
     return cache;
 }
 
 const TemplateStore::Template* TemplateStore::find(const std::string& name) {
     all();
-    for (const auto& t : cache) {
-        if (t.name == name) return &t;
+    auto it = name_to_index.find(name);
+    if (it != name_to_index.end()) {
+        return &cache[it->second];
     }
     return nullptr;
 }
@@ -169,16 +172,25 @@ std::vector<const TemplateStore::Template*> TemplateStore::search(const std::str
     for (const auto& t : cache) {
         std::string n = t.name;
         std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-        if (n.find(q) != std::string::npos) results.push_back(&t);\
+        if (n.find(q) != std::string::npos) results.push_back(&t);
     }
     return results;
 }
 
 std::string TemplateStore::read_content(const Template& t) const {
-    std::ifstream f(t.path);
+    std::ifstream f(t.path, std::ios::binary);
     if (!f) return "";
-    return std::string((std::istreambuf_iterator<char>(f)),
+    std::error_code ec;
+    auto sz = fs::file_size(t.path, ec);
+    std::string content;
+    if (!ec && sz > 0) {
+        content.resize(sz);
+        f.read(&content[0], sz);
+    } else {
+        content.assign((std::istreambuf_iterator<char>(f)),
                         std::istreambuf_iterator<char>());
+    }
+    return content;
 }
 
 const std::vector<fs::path>& TemplateStore::paths() const {

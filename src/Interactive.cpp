@@ -112,6 +112,19 @@ std::vector<std::string> InteractiveSelector::select(
         return {};
     }
 
+    struct Item {
+        std::string name;
+        std::string lower;
+    };
+
+    std::vector<Item> items;
+    items.reserve(all_names.size());
+    for (const auto& name : all_names) {
+        std::string l = name;
+        std::transform(l.begin(), l.end(), l.begin(), ::tolower);
+        items.push_back({name, std::move(l)});
+    }
+
     std::unordered_set<std::string> selected = preselected;
     std::string filter;
     std::vector<std::string> visible = all_names;
@@ -127,10 +140,10 @@ std::vector<std::string> InteractiveSelector::select(
         } else {
             std::string fl = filter;
             std::transform(fl.begin(), fl.end(), fl.begin(), ::tolower);
-            for (const auto& name : all_names) {
-                std::string n = name;
-                std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-                if (n.find(fl) != std::string::npos) visible.push_back(name);
+            for (const auto& item : items) {
+                if (item.lower.find(fl) != std::string::npos) {
+                    visible.push_back(item.name);
+                }
             }
         }
         if (cursor >= (int)visible.size()) cursor = (int)visible.size() - 1;

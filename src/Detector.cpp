@@ -8,8 +8,10 @@ namespace fs = std::filesystem;
 
 Detector::Detector(TemplateStore& store) : store(store) {}
 
-bool Detector::pattern_matches(const std::string& name, const std::string& pattern) {
-    return fnmatch(pattern.c_str(), name.c_str(), FNM_CASEFOLD) == 0;
+static inline std::string to_lower_copy(std::string_view str) {
+    std::string s(str);
+    std::transform(s.begin(), s.end(), s.begin(), ::tolower);
+    return s;
 }
 
 std::vector<std::string> Detector::detect(const fs::path& dir) {
@@ -19,49 +21,88 @@ std::vector<std::string> Detector::detect(const fs::path& dir) {
             excluded_dirs.insert(d);
     }
 
-    std::unordered_set<std::string> filenames;
-    std::unordered_set<std::string> extensions;
+    std::unordered_set<std::string> filenames_lower;
+    std::unordered_set<std::string> extensions_lower;
+    std::vector<std::string> all_filenames_lower;
 
-    auto collect = [&](const fs::path& p) {
-        auto fname = p.filename().string();
-        if (!fname.empty() && fname[0] != '.') {
-            filenames.insert(fname);
-            if (p.has_extension()) extensions.insert(p.extension().string());
+    filenames_lower.reserve(256);
+    extensions_lower.reserve(64);
+    all_filenames_lower.reserve(256);
+
+    std::error_code ec;
+    auto iter_options = fs::directory_options::skip_permission_denied;
+    fs::recursive_directory_iterator it(dir, iter_options, ec);
+    fs::recursive_directory_iterator end;
+
+    while (!ec && it != end) {
+        const auto& entry = *it;
+        auto fname = entry.path().filename().string();
+
+        if (fname.empty()) {
+            it.increment(ec);
+            continue;
         }
-    };
 
-    try {
-        for (auto it = fs::recursive_directory_iterator(dir); it != fs::recursive_directory_iterator{}; ++it) {
-            auto fname = it->path().filename().string();
-            if (fname.empty()) continue;
-            if (fname[0] == '.') {
-                if (it->is_directory()) it.disable_recursion_pending();
-                continue;
-            }
-            if (it->is_directory() && excluded_dirs.count(fname)) {
+        if (fname[0] == '.') {
+            if (entry.is_directory(ec)) it.disable_recursion_pending();
+            it.increment(ec);
+            continue;
+        }
+
+        if (entry.is_directory(ec)) {
+            if (excluded_dirs.find(fname) != excluded_dirs.end()) {
                 it.disable_recursion_pending();
+                it.increment(ec);
                 continue;
             }
-            if (it.depth() > 3) { it.disable_recursion_pending(); continue; }
-            collect(it->path());
+            if (it.depth() > 3) {
+                it.disable_recursion_pending();
+                it.increment(ec);
+                continue;
+            }
+        } else if (entry.is_regular_file(ec)) {
+            std::string fname_lower = to_lower_copy(fname);
+            if (filenames_lower.insert(fname_lower).second) {
+                all_filenames_lower.push_back(fname_lower);
+            }
+
+            if (entry.path().has_extension()) {
+                std::string ext_lower = to_lower_copy(entry.path().extension().string());
+                extensions_lower.insert(std::move(ext_lower));
+            }
         }
-    } catch (...) {}
+
+        it.increment(ec);
+    }
 
     std::unordered_set<std::string> suggested;
+    suggested.reserve(16);
 
     for (const auto& tmpl : store.all()) {
         if (tmpl.detect_patterns.empty()) continue;
+
         for (const auto& pattern : tmpl.detect_patterns) {
+            std::string pat_lower = to_lower_copy(pattern);
             bool matched = false;
-            for (const auto& fname : filenames) {
-                if (pattern_matches(fname, pattern)) { matched = true; break; }
-            }
-            if (!matched) {
-                for (const auto& ext : extensions) {
-                    if (pattern_matches("x" + ext, pattern)) { matched = true; break; }
+
+            if (pat_lower.rfind("*.", 0) == 0 && pat_lower.find_first_of("*?[", 2) == std::string::npos) {
+                std::string target_ext = pat_lower.substr(1);
+                matched = (extensions_lower.find(target_ext) != extensions_lower.end());
+            } else if (pat_lower.find_first_of("*?[") == std::string::npos) {
+                matched = (filenames_lower.find(pat_lower) != filenames_lower.end());
+            } else {
+                for (const auto& fname_lower : all_filenames_lower) {
+                    if (fnmatch(pat_lower.c_str(), fname_lower.c_str(), 0) == 0) {
+                        matched = true;
+                        break;
+                    }
                 }
             }
-            if (matched) { suggested.insert(tmpl.name); break; }
+
+            if (matched) {
+                suggested.insert(tmpl.name);
+                break;
+            }
         }
     }
 

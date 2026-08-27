@@ -14,6 +14,4 @@ public:
 
 private:
     TemplateStore& store;
-
-    bool pattern_matches(const std::string& name, const std::string& pattern);
 };

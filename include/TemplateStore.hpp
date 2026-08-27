@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace fs = std::filesystem;
@@ -26,9 +27,11 @@ public:
 private:
     std::vector<fs::path> search_paths;
     std::vector<Template> cache;
+    std::unordered_map<std::string, size_t> name_to_index;
     bool cache_valid = false;
 
     void init_paths();
-    std::vector<std::string> parse_detect_patterns(const fs::path& path);
-    std::vector<std::string> parse_exclude_dirs(const fs::path& path);
+    void parse_template_header(const fs::path& path,
+                               std::vector<std::string>& detect_patterns,
+                               std::vector<std::string>& exclude_dirs);
 };
