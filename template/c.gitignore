@@ -1,4 +1,4 @@
-# @detect: *.c *.h
+# @detect: *.c
 # C object files
 *.o
 *.obj
