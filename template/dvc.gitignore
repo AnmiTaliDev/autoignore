@@ -1,0 +1,4 @@
+# @detect: dvc.yaml dvc.lock
+.dvc/cache/
+.dvc/tmp/
+.dvc/plots/
