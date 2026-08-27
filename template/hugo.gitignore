@@ -1,0 +1,4 @@
+# @detect: hugo.toml hugo.yaml hugo.json
+public/
+resources/_gen/
+.hugo_build.lock
