@@ -1,0 +1,3 @@
+# @detect: nest-cli.json
+dist/
+.swc/
