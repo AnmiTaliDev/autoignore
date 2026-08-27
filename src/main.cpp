@@ -128,6 +128,8 @@ static void generate(TemplateStore& store,
 }
 
 int main(int argc, char* argv[]) {
+    color::init();
+
     bool do_list        = false;
     bool do_interactive = false;
     bool do_detect      = false;
