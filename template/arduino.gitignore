@@ -1,0 +1,6 @@
+# @detect: *.ino
+build/
+*.hex
+*.elf
+*.bin
+*.eep
