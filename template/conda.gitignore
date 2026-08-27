@@ -1,0 +1,5 @@
+# @detect: environment.yml environment.yaml
+/envs/
+/pkgs/
+*.tar.bz2
+*.conda
