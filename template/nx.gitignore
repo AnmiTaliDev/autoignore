@@ -1,0 +1,3 @@
+# @detect: nx.json
+.nx/cache/
+.nx/workspace-data/
