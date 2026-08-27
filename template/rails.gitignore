@@ -1,4 +1,4 @@
-# @detect: Gemfile config/application.rb config/routes.rb
+# @detect: routes.rb
 log/
 tmp/
 storage/
