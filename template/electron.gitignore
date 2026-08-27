@@ -1,0 +1,9 @@
+# @detect: electron-builder.yml electron-builder.json electron.js
+dist/
+out/
+release/
+*.dmg
+*.exe
+*.AppImage
+*.deb
+*.rpm
