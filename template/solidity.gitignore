@@ -1,0 +1,10 @@
+# @detect: *.sol hardhat.config.js hardhat.config.ts foundry.toml truffle-config.js
+artifacts/
+cache/
+typechain/
+typechain-types/
+out/
+broadcast/
+.env
+.env.*
+!.env.example
