@@ -1,4 +1,4 @@
-# @detect: *.groovy *.gradle Jenkinsfile
+# @detect: *.groovy
 build/
 .gradle/
 *.class
