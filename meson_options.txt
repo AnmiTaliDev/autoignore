@@ -1,0 +1,17 @@
+option('default_output',
+  type : 'string',
+  value : '.gitignore',
+  description : 'Default output filename'
+)
+
+option('max_detect_depth',
+  type : 'integer',
+  value : 3,
+  description : 'Default maximum directory traversal depth for detection'
+)
+
+option('interactive_page_size',
+  type : 'integer',
+  value : 15,
+  description : 'Number of items per page in interactive mode'
+)

@@ -6,7 +6,8 @@
 
 namespace fs = std::filesystem;
 
-Detector::Detector(TemplateStore& store) : store(store) {}
+Detector::Detector(TemplateStore& store, int max_depth)
+    : store(store), max_depth(max_depth) {}
 
 static inline std::string to_lower_copy(std::string_view str) {
     std::string s(str);
@@ -55,7 +56,7 @@ std::vector<std::string> Detector::detect(const fs::path& dir) {
                 it.increment(ec);
                 continue;
             }
-            if (it.depth() > 3) {
+            if (it.depth() > max_depth) {
                 it.disable_recursion_pending();
                 it.increment(ec);
                 continue;

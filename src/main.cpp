@@ -1,4 +1,5 @@
 #include "Common.hpp"
+#include "Config.hpp"
 #include "Detector.hpp"
 #include "Interactive.hpp"
 #include "TemplateStore.hpp"
@@ -16,7 +17,7 @@ namespace fs = std::filesystem;
 
 static void print_header() {
     std::cout << color::bold << color::cyan << "autoignore" << color::reset
-              << " " << color::gray << "2.0.0  gitignore generator" << color::reset << "\n\n";
+              << " " << color::gray << AUTOIGNORE_VERSION << "  gitignore generator" << color::reset << "\n\n";
 }
 
 static void print_usage() {
@@ -28,7 +29,8 @@ static void print_usage() {
         << "  -s, --search <query>    Search templates by name\n"
         << "  -i, --interactive       Select templates interactively\n"
         << "  -d, --detect            Auto-detect templates from project files\n"
-        << "  -o, --output <file>     Output file (default: .gitignore)\n"
+        << "  -M, --max-depth <num>   Maximum directory depth for auto-detection (default: " << AUTOIGNORE_DEFAULT_MAX_DEPTH << ")\n"
+        << "  -o, --output <file>     Output file (default: " << AUTOIGNORE_DEFAULT_OUTPUT << ")\n"
         << "  -a, --append            Append to existing file\n"
         << "  -p, --preview           Preview output without writing\n"
         << "  -u, --dedup             Deduplicate repeated patterns\n"
@@ -204,14 +206,16 @@ int main(int argc, char* argv[]) {
     bool do_dedup       = false;
     bool append         = false;
     bool verbose        = false;
+    int max_depth       = AUTOIGNORE_DEFAULT_MAX_DEPTH;
     std::string search_query;
-    std::string output = ".gitignore";
+    std::string output = AUTOIGNORE_DEFAULT_OUTPUT;
 
     static const struct option long_opts[] = {
         {"list",        no_argument,       nullptr, 'l'},
         {"search",      required_argument, nullptr, 's'},
         {"interactive", no_argument,       nullptr, 'i'},
         {"detect",      no_argument,       nullptr, 'd'},
+        {"max-depth",   required_argument, nullptr, 'M'},
         {"output",      required_argument, nullptr, 'o'},
         {"append",      no_argument,       nullptr, 'a'},
         {"preview",     no_argument,       nullptr, 'p'},
@@ -222,12 +226,13 @@ int main(int argc, char* argv[]) {
     };
 
     int c, idx = 0;
-    while ((c = getopt_long(argc, argv, "ls:ido:apu vh", long_opts, &idx)) != -1) {
+    while ((c = getopt_long(argc, argv, "ls:idM:o:apu vh", long_opts, &idx)) != -1) {
         switch (c) {
             case 'l': do_list = true;           break;
             case 's': search_query = optarg;    break;
             case 'i': do_interactive = true;    break;
             case 'd': do_detect = true;         break;
+            case 'M': max_depth = std::max(0, std::atoi(optarg)); break;
             case 'o': output = optarg;          break;
             case 'a': append = true;            break;
             case 'p': do_preview = true;        break;
@@ -256,7 +261,7 @@ int main(int argc, char* argv[]) {
     for (int i = optind; i < argc; i++) templates.push_back(argv[i]);
 
     if (do_detect) {
-        Detector detector(store);
+        Detector detector(store, max_depth);
         auto detected = detector.detect(".");
         if (detected.empty()) {
             std::cout << color::yellow << "No templates detected for this directory.\n" << color::reset;

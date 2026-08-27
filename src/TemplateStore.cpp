@@ -1,4 +1,5 @@
 #include "TemplateStore.hpp"
+#include "Config.hpp"
 
 #include <algorithm>
 #include <fstream>
@@ -80,6 +81,7 @@ void TemplateStore::init_paths() {
             start = end + 1;
         }
     } else {
+        add_path(AUTOIGNORE_TEMPLATE_DIR);
         add_path("/usr/local/share/autoignore/template");
         add_path("/usr/share/autoignore/template");
     }

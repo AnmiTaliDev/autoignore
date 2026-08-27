@@ -1,16 +1,22 @@
 #pragma once
 
+#include "Config.hpp"
+
 #include <string>
 #include <unordered_set>
 #include <vector>
 
 class InteractiveSelector {
 public:
+    explicit InteractiveSelector(int page_size = AUTOIGNORE_DEFAULT_PAGE_SIZE);
+
     std::vector<std::string> select(
         const std::vector<std::string>& all_names,
         const std::unordered_set<std::string>& preselected = {});
 
 private:
+    int page_size;
+
     enum Key {
         K_NONE = 0,
         K_UP = 1000,

@@ -8,6 +8,9 @@
 #include <termios.h>
 #include <unistd.h>
 
+InteractiveSelector::InteractiveSelector(int page_size)
+    : page_size(page_size > 0 ? page_size : AUTOIGNORE_DEFAULT_PAGE_SIZE) {}
+
 namespace {
     struct TerminalGuard {
         struct termios orig_termios {};
@@ -154,7 +157,7 @@ std::vector<std::string> InteractiveSelector::select(
     std::vector<std::string> visible = all_names;
     int cursor = 0;
     int scroll = 0;
-    const int PAGE = 15;
+    const int PAGE = page_size;
     int rendered = 0;
 
     auto refilter = [&]() {

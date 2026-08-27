@@ -6,6 +6,7 @@ _autoignore() {
         '(-s --search)'{-s,--search}'[search templates by name]:query' \
         '(-i --interactive)'{-i,--interactive}'[select templates interactively]' \
         '(-d --detect)'{-d,--detect}'[auto-detect templates from project files]' \
+        '(-M --max-depth)'{-M,--max-depth}'[maximum directory depth for detection]:depth' \
         '(-o --output)'{-o,--output}'[output file]:file:_files' \
         '(-a --append)'{-a,--append}'[append to existing file]' \
         '(-p --preview)'{-p,--preview}'[preview output without writing]' \

@@ -7,14 +7,14 @@ _autoignore() {
             _filedir
             return
             ;;
-        -s|--search)
+        -s|--search|-M|--max-depth)
             return
             ;;
     esac
 
     if [[ "$cur" == -* ]]; then
         COMPREPLY=($(compgen -W \
-            '-l --list -s --search -i --interactive -d --detect
+            '-l --list -s --search -i --interactive -d --detect -M --max-depth
              -o --output -a --append -p --preview -u --dedup -v --verbose -h --help' \
             -- "$cur"))
         return
