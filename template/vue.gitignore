@@ -1,4 +1,4 @@
-# @detect: vue.config.js vite.config.ts nuxt.config.ts *.vue
+# @detect: *.vue vue.config.js vue.config.ts
 node_modules/
 dist/
 .nuxt/
