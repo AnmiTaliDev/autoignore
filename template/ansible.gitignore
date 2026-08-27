@@ -1,4 +1,4 @@
-# @detect: ansible.cfg playbook.yml site.yml inventory
+# @detect: ansible.cfg galaxy.yml
 *.retry
 .vault_pass
 vault_password_file
