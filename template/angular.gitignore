@@ -1,4 +1,4 @@
-# @detect: angular.json .angular/
+# @detect: angular.json
 dist/
 node_modules/
 .angular/
