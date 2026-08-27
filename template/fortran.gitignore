@@ -1,0 +1,11 @@
+# @detect: *.f *.f90 *.f95 *.f03 *.f08 *.for
+*.o
+*.mod
+*.smod
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dylib
+*.dll
