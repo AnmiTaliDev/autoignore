@@ -1,0 +1,4 @@
+# @detect: serverless.yml serverless.yaml serverless.ts serverless.js
+.serverless/
+.build/
+.webpack/
