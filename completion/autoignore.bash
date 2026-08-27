@@ -15,7 +15,7 @@ _autoignore() {
     if [[ "$cur" == -* ]]; then
         COMPREPLY=($(compgen -W \
             '-l --list -s --search -i --interactive -d --detect
-             -o --output -a --append -p --preview -v --verbose -h --help' \
+             -o --output -a --append -p --preview -u --dedup -v --verbose -h --help' \
             -- "$cur"))
         return
     fi

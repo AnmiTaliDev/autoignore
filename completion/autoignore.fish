@@ -9,6 +9,7 @@ complete -c autoignore -s d -l detect      -d 'Auto-detect templates from projec
 complete -c autoignore -s o -l output      -d 'Output file' -r -F
 complete -c autoignore -s a -l append      -d 'Append to existing file'
 complete -c autoignore -s p -l preview     -d 'Preview output without writing'
+complete -c autoignore -s u -l dedup       -d 'Deduplicate repeated patterns'
 complete -c autoignore -s v -l verbose     -d 'Verbose output'
 complete -c autoignore -s h -l help        -d 'Show help'
 complete -c autoignore -f -a '(__autoignore_templates)'
