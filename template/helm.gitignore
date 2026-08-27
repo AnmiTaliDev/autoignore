@@ -1,0 +1,3 @@
+# @detect: Chart.yaml values.yaml
+*.tgz
+.helmignore
