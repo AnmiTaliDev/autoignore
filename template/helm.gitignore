@@ -1,3 +1,3 @@
-# @detect: Chart.yaml values.yaml
+# @detect: Chart.yaml Chart.lock
 *.tgz
 .helmignore
