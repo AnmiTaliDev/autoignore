@@ -1,4 +1,4 @@
-# @detect: artisan composer.json bootstrap/app.php
+# @detect: artisan
 vendor/
 node_modules/
 public/hot
