@@ -1,0 +1,6 @@
+# @detect: docusaurus.config.js docusaurus.config.ts
+.docusaurus/
+build/
+.env
+.env.*
+!.env.example
