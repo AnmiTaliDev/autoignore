@@ -1,0 +1,7 @@
+# @detect: remix.config.js remix.config.ts
+build/
+public/build/
+.cache/
+.env
+.env.*
+!.env.example
