@@ -1,0 +1,3 @@
+# @detect: *.ipynb
+.ipynb_checkpoints/
+.jupyter/
